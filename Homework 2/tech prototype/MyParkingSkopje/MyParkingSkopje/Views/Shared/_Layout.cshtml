@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="~/Content/stylesheet.css">
+</head>
+<body>
+    <div class="navbar navbar-inverse red-header">
+        <div class="container-fluid">
+            <span class="navbar-header" style="float:left;">
+                @Html.ActionLink("My Parking Skopje", "Index", "Home", new { area = "" }, new { @class = "application-name" })
+            </span>
+            <span class="navbar-header" style="float:right;">
+                @Html.Partial("_LoginPartial")
+            </span>
+        </div>
+    </div>
+    <div class="container-fluid cream-background">
+        @RenderBody()
+    </div>
+    <footer class="navbar blue-footer">
+        <p style="float:left;">&copy; Copyright @DateTime.Now.Year. All Rights Reserved.</p>
+        <p style="float:right;">info@myParkingSkopje.com</p>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $("#lokacija").click(function () {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        position.coords.latitude;
+                        position.coords.longitude;
+                        alert(position.coords.latitude + " " + position.coords.longitude)
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
