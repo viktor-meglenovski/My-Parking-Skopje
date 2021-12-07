@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNet.Identity
+@using MyParkingSkopje.Models;
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+        <div style="float:right;">
+            <a class="white-red-button">@Html.Raw(Html.Action("GetCurrentUserName", "Account"))</a>
+            <a class="dropdown-toggle small-profile-picture" data-toggle="dropdown">
+                <img class="small-profile-picture" src="@Url.Content(Html.Action("GetCurrentUserPicture","Account").ToString())" />
+            <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="/Parking/ListParkings">List all Parkings</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="/Profile/EditProfile">Edit your Profile</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="/Manage/ChangePassword">Change your password</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>
+        </div>
+    }
+}
+else
+{
+    <div style="float:right;">
+        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "button white-red-button" })
+        @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "white-red-button" })
+    </div>
+}
