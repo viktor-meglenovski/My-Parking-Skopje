@@ -172,6 +172,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ParkingController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\SearchParkingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -211,14 +212,54 @@
     <Compile Include="Migrations\202112042124572_profilePicture.Designer.cs">
       <DependentUpon>202112042124572_profilePicture.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202112081731023_reviewsInDB.cs" />
+    <Compile Include="Migrations\202112081731023_reviewsInDB.Designer.cs">
+      <DependentUpon>202112081731023_reviewsInDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112081748398_userLocation.cs" />
+    <Compile Include="Migrations\202112081748398_userLocation.Designer.cs">
+      <DependentUpon>202112081748398_userLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112082313075_municipalityInParkings.cs" />
+    <Compile Include="Migrations\202112082313075_municipalityInParkings.Designer.cs">
+      <DependentUpon>202112082313075_municipalityInParkings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112082332418_municipalityModel.cs" />
+    <Compile Include="Migrations\202112082332418_municipalityModel.Designer.cs">
+      <DependentUpon>202112082332418_municipalityModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112082334530_municipalityModel1.cs" />
+    <Compile Include="Migrations\202112082334530_municipalityModel1.Designer.cs">
+      <DependentUpon>202112082334530_municipalityModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112100028146_bookmarks.cs" />
+    <Compile Include="Migrations\202112100028146_bookmarks.Designer.cs">
+      <DependentUpon>202112100028146_bookmarks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112101635372_populateParkingsMunicipalities.cs" />
+    <Compile Include="Migrations\202112101635372_populateParkingsMunicipalities.Designer.cs">
+      <DependentUpon>202112101635372_populateParkingsMunicipalities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112101645585_populateParkingsMunicipalities1.cs" />
+    <Compile Include="Migrations\202112101645585_populateParkingsMunicipalities1.Designer.cs">
+      <DependentUpon>202112101645585_populateParkingsMunicipalities1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Bookmark.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Municipality.cs" />
     <Compile Include="Models\Parking.cs" />
+    <Compile Include="Models\Review.cs" />
+    <Compile Include="Models\UserLocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
+    <Compile Include="ViewModels\ParkingDetails.cs" />
+    <Compile Include="ViewModels\ParkingsWithDistanceViewModel.cs" />
+    <Compile Include="ViewModels\ParkingWithReviewsViewModel.cs" />
+    <Compile Include="ViewModels\SearchParkingsIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -280,6 +321,11 @@
     <Content Include="Views\Parking\ListParkings.cshtml" />
     <Content Include="Views\Profile\EditProfile.cshtml" />
     <Content Include="Views\Parking\Details.cshtml" />
+    <Content Include="Views\SearchParkings\Index.cshtml" />
+    <Content Include="Views\SearchParkings\ByName.cshtml" />
+    <Content Include="Views\SearchParkings\ByMunicipality.cshtml" />
+    <Content Include="Views\SearchParkings\ByLocation.cshtml" />
+    <Content Include="Views\SearchParkings\Bookmarks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -325,6 +371,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202112042124572_profilePicture.resx">
       <DependentUpon>202112042124572_profilePicture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112081731023_reviewsInDB.resx">
+      <DependentUpon>202112081731023_reviewsInDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112081748398_userLocation.resx">
+      <DependentUpon>202112081748398_userLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112082313075_municipalityInParkings.resx">
+      <DependentUpon>202112082313075_municipalityInParkings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112082332418_municipalityModel.resx">
+      <DependentUpon>202112082332418_municipalityModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112082334530_municipalityModel1.resx">
+      <DependentUpon>202112082334530_municipalityModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112100028146_bookmarks.resx">
+      <DependentUpon>202112100028146_bookmarks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112101635372_populateParkingsMunicipalities.resx">
+      <DependentUpon>202112101635372_populateParkingsMunicipalities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112101645585_populateParkingsMunicipalities1.resx">
+      <DependentUpon>202112101645585_populateParkingsMunicipalities1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
