@@ -7,11 +7,26 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="~/Content/stylesheet.css">
+    <style>
+        .mybody {
+            min-height: 100vh;
+            position: relative;
+            margin: 0;
+            padding-bottom: 80px;
+            box-sizing: border-box;
+        }
+        footer {
+            position: absolute;
+            bottom: 0;
+            height: 60px;
+        }
+
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse red-header">
         <div class="container-fluid">
-            <span class="navbar-header" style="float:left;">
+            <span class="navbar-header visible-sm-block visible-md-block visible-lg-block" style="float:left;">
                 @Html.ActionLink("My Parking Skopje", "Index", "Home", new { area = "" }, new { @class = "application-name" })
             </span>
             <span class="navbar-header" style="float:right;">
@@ -19,11 +34,11 @@
             </span>
         </div>
     </div>
-    <div class="container-fluid cream-background">
+    <div class=" mybody container-fluid cream-background">
         @RenderBody()
     </div>
     <footer class="navbar blue-footer">
-        <p style="float:left;">&copy; Copyright @DateTime.Now.Year. All Rights Reserved.</p>
+        <p class="visible-sm-block visible-md-block visible-lg-block" style="float:left;">&copy; Copyright @DateTime.Now.Year. All Rights Reserved.</p>
         <p style="float:right;">info@myParkingSkopje.com</p>
     </footer>
     @Scripts.Render("~/bundles/jquery")
