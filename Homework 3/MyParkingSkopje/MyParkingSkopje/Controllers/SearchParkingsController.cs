@@ -88,7 +88,7 @@ namespace MyParkingSkopje.Controllers
             }
             return result;
         }
-        public void UpdateUserLocation(double lattitude, double longitude)
+        public ActionResult UpdateUserLocation(double lattitude, double longitude)
         {
             var userId = User.Identity.GetUserId();
             var existing = _context.UserLocations.Where(x => x.UserId == userId);
@@ -101,8 +101,9 @@ namespace MyParkingSkopje.Controllers
                 var existingLocation = existing.First();
                 existingLocation.Lattitude = lattitude;
                 existingLocation.Longitude = longitude;
-                _context.SaveChanges();
             }
+            _context.SaveChanges();
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
         public double DistanceBetweenTwoCoordinates(double lat1,double lon1,double lat2, double lon2)
         {
