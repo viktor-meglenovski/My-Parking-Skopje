@@ -14,12 +14,14 @@ namespace MyParkingSkopje.Models
         public Boolean Fee { get; set; }
         public Double Lattitude { get; set; }
         public Double Longitude { get; set; }
-        public Parking(string Name, Boolean Fee, Double Lattitude, Double Longitude)
+        public string Municipality { get; set; }
+        public Parking(string Name, Boolean Fee, Double Lattitude, Double Longitude, string Municipality)
         {
             this.Name = Name;
             this.Fee = Fee;
             this.Lattitude = Lattitude;
             this.Longitude = Longitude;
+            this.Municipality = Municipality;
         }
         public Parking() { }
     }

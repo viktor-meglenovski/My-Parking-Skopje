@@ -25,6 +25,11 @@ namespace MyParkingSkopje.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Parking> Parkings { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<UserLocation> UserLocations { get; set; }
+        public DbSet<Municipality> Municipalities { get; set; }
+
+        public DbSet<Bookmark> Bookmarks { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
