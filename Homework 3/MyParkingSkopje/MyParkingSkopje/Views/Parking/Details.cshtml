@@ -1,24 +1,31 @@
-﻿@model MyParkingSkopje.Models.Parking
+﻿@model MyParkingSkopje.ViewModels.ParkingDetailsWithReviews
+@using MyParkingSkopje.ViewModels;
 @{
     ViewBag.Title = "Details";
 }
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 <div style="margin-top:1%;">
     <div class="row" style="height:90%;">
         <div class="col-md-5 text-center" style="">
-            <h1>@Model.Name</h1>
-            <iframe class="frame-smaller" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d38477.39477480714!2d21.410300706719863!3d42.000699225426196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x135415a58c9aa2a5%3A0xb2ed88c260872020!2sSkopje!5e0!3m2!1sen!2smk!4v1638644516885!5m2!1sen!2smk" style="position: relative; height: 250px; width: 90%; margin:0;" allowfullscreen="" loading="lazy"></iframe>
-            <h3><a href="" style="font-weight:bold">Click</a> on the map to get directions.</h3>
+            <h1 parkingName=@Model.parking.Name id="pId" pIdAtr="@Model.parking.ParkingId" userLatitude=@ViewBag.userLatitude userLongitude=@ViewBag.userLongitude>
+                <button class="back-button" onclick="history.back()">Back</button>
+                @Model.parking.Name
+                <img style="width:50px;" projectId=@Model.parking.ParkingId id="bookmark" src="@Url.Content(Model.bookmarked==true?"~/Content/Images/heart.png":"~/Content/Images/heart_empty.png")" />
+            </h1>
+            <div class="frame-smaller" style="position: relative; height: 300px; width: 100%; margin:0;" id="map" latitude=@Model.parking.Lattitude longitude=@Model.parking.Longitude></div>
             <div class="row" style="position:relative;">
                 <div class="col-xs-6 text-left" style="height:50%; padding-left:50px;">
                     <h3>Lattitude: </h3>
                     <h3>Longitude: </h3>
                     <h3>Fee: </h3>
+                    <h3>Distance:</h3>
                 </div>
                 <div class="col-xs-6 text-right" style="padding-right:50px;">
-                    <h3>@(Model.Lattitude)N</h3>
-                    <h3>@(Model.Longitude)E</h3>
-                    <h3>@(Model.Fee==true?"yes":"no")</h3>
+                    <h3>@(Model.parking.Lattitude)N</h3>
+                    <h3>@(Model.parking.Longitude)E</h3>
+                    <h3>@(Model.parking.Fee == true ? "yes" : "no")</h3>
+                    <h3>@((int) (Model.distance*1000)) meters away</h3>
                 </div>
             </div>
 
@@ -27,44 +34,350 @@
             <div class="green-rounded-corners" style="height:100%; margin-bottom:2%;">
                 <h1>Reviews</h1>
                 <div class="text-center" style="margin:auto;">
-                    <table class="table table-responsive" style="width:80%; padding-left:20px;padding-right:20px; margin:auto;">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Rating</th>
-                                <th>Time</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                    <h3 style="margin-bottom:150px;">There are no reviews for this parking :(</h3>
+                    @if (Model.reviewsDetails.Count == 0)
+                    {
+                        <h3 style="margin-bottom:150px;">There are no reviews for this parking :(</h3>
+                    }
+                    else
+                    {
+                        <table id="reviewsTable" class="table table-responsive" style="width:80%; padding-left:20px;padding-right:20px; margin:auto;">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Rating</th>
+                                    <th>Time</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var r in Model.reviewsDetails)
+                                {
+                                    <tr>
+                                        <td>@r.name </td>
+                                        <td data-order=@r.review.Stars>
+                                            <input type="hidden" value=@r.review.Stars />
+                                            @for (var i = 0; i < 5; i++)
+                                            {
+                                                if (i < r.review.Stars)
+                                                {
+                                                    <img class="star-image-review small-star" src=@Url.Content("~/Content/Images/star_full.png") />
+                                                }
+                                                else
+                                                {
+                                                    <img class="star-image-review small-star" src=@Url.Content("~/Content/Images/star_empty.png") />
+                                                }
+                                            }
+                                        </td>
+                                        <td>@r.review.datetime</td>
+                                        <td><img style="width:30px;" src="~/Content/Images/info.png" reviewId=@r.review.ReviewId class="reviewInfo" /></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
                 </div>
             </div>
-            <div class="green-rounded-corners" style="height:40%; margin-bottom:2%; padding-bottom:50px;">
-                <h1 style="margin-bottom:20px;">Write a Review</h1>
-                <div class="row">
-                    <div class="col-lg-6" style="padding-right:0;">
-                        <textArea rows="6" style="width:100%; resize:none;" placeholder="Leave your comment here"></textArea>
-                    </div>
-                    <div class="col-lg-6" style="height:100%; padding-left:0;">
-                        <div style="margin-bottom:30px;">
-                            <img class="star-image-review" src=@Url.Content("~/Content/Images/star_empty.png") />
-                            <img class="star-image-review" src=@Url.Content("~/Content/Images/star_empty.png") />
-                            <img class="star-image-review" src=@Url.Content("~/Content/Images/star_empty.png") />
-                            <img class="star-image-review" src=@Url.Content("~/Content/Images/star_empty.png") />
-                            <img class="star-image-review" src=@Url.Content("~/Content/Images/star_empty.png") />
+            <div class="green-rounded-corners" style="height:30%; margin-bottom:2%; padding-bottom:50px;">
+                @if (Model.existingReview == null)
+                {
+                    <h1 style="margin-bottom:20px;">Write a Review</h1>
+                    <div class="row">
+                        <div class="col-lg-6" style="padding-right:0;">
+                            <textArea id="reviewText" rows="6" style="width:100%; resize:none;" placeholder="Leave your comment here"></textArea>
                         </div>
-                        <a class="blue-white-button-large">Publish</a>
+                        <div class="col-lg-6" style="height:100%; padding-left:0;">
+                            <div style="margin-bottom:30px;">
+                                <img id="star1" class="star-image-review star" src=@Url.Content("~/Content/Images/star_empty.png") />
+                                <img id="star2" class="star-image-review star" src=@Url.Content("~/Content/Images/star_empty.png") />
+                                <img id="star3" class="star-image-review star" src=@Url.Content("~/Content/Images/star_empty.png") />
+                                <img id="star4" class="star-image-review star" src=@Url.Content("~/Content/Images/star_empty.png") />
+                                <img id="star5" class="star-image-review star" src=@Url.Content("~/Content/Images/star_empty.png") />
+                            </div>
+                            <a id="submitReview" class="blue-white-button-large">Submit</a>
+                            <a id="discardReview" class="red-white-button-large">Discard</a>
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <h1 style="margin-bottom:20px;">Edit your Review</h1>
+                    <div class="row">
+                        <div class="col-lg-6" style="padding-right:0;">
+                            <textArea id="reviewText" rows="6" style="width:100%; resize:none;" placeholder="Leave your comment here">@Model.existingReview.ReviewText</textArea>
+                        </div>
+                        <div class="col-lg-6" style="height:100%; padding-left:0;">
+                            <div style="margin-bottom:30px;">
+                                <input type="hidden" starsVal=@Model.existingReview.Stars id="existingReviewStarsValue" />
+                                @for (var i = 1; i < 6; i++)
+                                {
+                                    if (i <= Model.existingReview.Stars)
+                                    {
+                                        <img id="star@(i)" class="star-image-review star" src=@Url.Content("~/Content/Images/star_full.png") />
+                                    }
+                                    else
+                                    {
+                                        <img id="star@(i)" class="star-image-review star" src=@Url.Content("~/Content/Images/star_empty.png") />
+                                    }
+                                }
+                            </div>
+                            <a id="editReview" class="blue-white-button-large">Edit</a>
+                            <a id="deleteReview" class="red-white-button-large">Delete</a>
+                        </div>
+                    </div>
+                }
+
             </div>
         </div>
     </div>
 </div>
 <style>
-    td,th{
-        text-align:center;
+    td, th {
+        text-align: center;
+    }
+
+    .small-star {
+        width: 20px;
+    }
+
+    .red-white-button-large {
+        background-color: rgb(255,53,53);
+        color: white;
+        font-family: Calibri;
+        font-size: 30px;
+        font-weight: bold;
+        border-radius: 50px;
+        padding: 0px 50px 0px 50px;
+        height: 50px;
+    }
+
+    .back-button {
+        background-color: rgb(50,138,227);
+        color: white;
+        font-family: Calibri;
+        font-size: 30px;
+        font-weight: bold;
+        border-radius: 50px;
+        padding: 0px 15px 0px 15px;
+        height: 50px;
+        margin-left: -70px;
+        margin-right: 20px;
     }
 </style>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#bookmark, .star, .reviewInfo, a").hover(function () {
+            $(this).css('cursor', 'pointer');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var lat = $("#map").attr('latitude');
+        var lon = $("#map").attr('longitude');
+        var map = L.map('map').setView([lat, lon], 13);
+        var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1
+        }).addTo(map);
+        var parkingName = $("#pId").attr("parkingName");
+        var marker = L.marker([lat, lon]).addTo(map);
+
+        lat = $("#pId").attr('userLatitude');
+        lon = $("#pId").attr('userLongitude');
+        var marker = L.marker([lat, lon]).addTo(map).bindPopup("Your location");
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#reviewsTable").DataTable({
+            "columns": [
+                { "name": "name", "orderable": false },
+                { "name": "stars", "orderable": true },
+                { "name": "date", "orderable": true },
+                { "name": "info", "orderable": false }
+            ],
+            "ordering": true,
+            "bLengthChange": false,
+            "searching": false,
+            "pageLength": 3,
+            "bInfo": false
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".reviewInfo").on("click", function (event) {
+            var infoButton = $(this);
+            var reviewId = parseInt(infoButton.attr("reviewId"));
+            $.ajax({
+                type: "GET",
+                url: '/Review/GetReviewDetails',
+                data: { id: reviewId },
+                success: function (results) {
+                    bootbox.dialog({
+                        message: results,
+                        title: "<h1>Review Details<h1>",
+                        buttons: {
+                            success: {
+                                label: "OK",
+                                className: "btn-success",
+                            },
+                        }
+                    });
+                },
+                error: function (results) {
+                    console.log("error");
+                }
+            }).done(function () {
+            }).fail(function (xhr, status, errorThrown) {
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#bookmark").on("click", function (event) {
+            var heart = $(this)
+            $.ajax({
+                url: "/Parking/BookmarkParking/" + heart.attr("projectId"),
+                success: function (results) {
+                    if (results.newState == true) {
+                        heart.attr("src", "/Content/Images/heart.png")
+                    }
+                    else {
+                        heart.attr("src", "/Content/Images/heart_empty.png")
+                    }
+                },
+                error: function (results) {
+                    console.log("error");
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var starsValue = 0;
+        if ($("#existingReviewStarsValue").length != 0) {
+            starsValue = $("#existingReviewStarsValue").attr("starsVal");
+
+        }
+
+
+        //klikanje na zvezdite
+        $(".star").on("click", function () {
+            var ova = $(this);
+            var num = parseInt(ova.attr("id").charAt(4));
+            var stars = $(".star");
+            for (var i = 0; i < 5; i++) {
+                if (i < num) {
+                    stars.get(i).setAttribute("src", "/Content/Images/star_full.png");
+                }
+                else {
+                    stars.get(i).setAttribute("src", "/Content/Images/star_empty.png");
+                }
+            }
+            starsValue = num;
+        });
+        $("#discardReview").on("click", function () {
+            starsValue = 0;
+            $("#reviewText").val('');
+            var stars = $(".star");
+            for (var i = 0; i < 5; i++) {
+                stars.get(i).setAttribute("src", "/Content/Images/star_empty.png");
+            }
+        });
+        //submit na review formata
+        $("#submitReview").on("click", function () {
+            var revText = $("#reviewText").val();
+            var parkingId = parseInt($("#pId").attr("pIdAtr"));
+            if (revText == "") {
+                //bootbox deka nema tekst
+                bootbox.alert("Please write a short comment!");
+            }
+            else if (starsValue == 0) {
+                //bootbox deka nema rating
+                bootbox.alert("Please select with how many stars you would rate this parking!");
+            }
+            else {
+                //se e vo red da se prati na server
+                $.ajax({
+                    type: "POST",
+                    url: '/Review/AddReview',
+                    data: { parkingId: parkingId, stars: starsValue, reviewText: revText },
+                    success: function (results) {
+                        location.reload();
+                    },
+                    error: function (results) {
+                        console.log("error");
+                    }
+                })
+            }
+        });
+        //edit review
+        $("#editReview").on("click", function () {
+            var revText = $("#reviewText").val();
+            var parkingId = parseInt($("#pId").attr("pIdAtr"));
+            if (revText == "") {
+                //bootbox deka nema tekst
+                bootbox.alert("Please write a short comment!");
+            }
+            else if (starsValue == 0) {
+                //bootbox deka nema rating
+                bootbox.alert("Please select with how many stars you would rate this parking!");
+            }
+            else {
+                //se e vo red da se prati na server
+                $.ajax({
+                    type: "POST",
+                    url: '/Review/EditReview',
+                    data: { parkingId: parkingId, stars: starsValue, reviewText: revText },
+                    success: function (results) {
+                        location.reload();
+                    },
+                    error: function (results) {
+                        console.log("error");
+                    }
+                })
+            }
+        });
+        $("#deleteReview").on("click", function () {
+            var revText = $("#reviewText").val();
+            var parkingId = parseInt($("#pId").attr("pIdAtr"));
+            bootbox.confirm({
+                message: "<h2>Are you sure you want to delete your review for this parking?</h2>",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    $.ajax({
+                        type: "GET",
+                        url: '/Review/DeleteReview',
+                        data: { parkingId: parkingId },
+                        success: function (results) {
+                            location.reload();
+                        },
+                        error: function (results) {
+                            console.log("error");
+                        }
+                    })
+                }
+            });
+        });
+    });
+</script>

@@ -24,7 +24,7 @@ namespace MyParkingSkopje.Controllers
 
             //5te parkinzi so najdobar rejting shto se prikazuvaat na glavnata stranica
             var topFiveParkings = GetParkingsDetails(_context.Parkings.ToList());
-            topFiveParkings.OrderBy(x => x.rating).Reverse();
+            topFiveParkings=topFiveParkings.OrderBy(x => x.rating).Reverse().ToList();
             topFiveParkings.GetRange(0, 5);
 
             var model = new SearchParkingsIndexViewModel(municipalities, topFiveParkings);
@@ -36,7 +36,7 @@ namespace MyParkingSkopje.Controllers
         {
             var parkings = _context.Parkings.Where(x => x.Name.Contains(name));
             var model = GetParkingsDetails(parkings.ToList());
-            model.OrderBy(x => x.rating);
+            model = model.OrderBy(x => x.rating).ToList();
             ViewBag.searchText = name;
             return View(model);
         }
@@ -45,7 +45,7 @@ namespace MyParkingSkopje.Controllers
         {
             var parkings = _context.Parkings.Where(x => x.Municipality == municipality);
             var model = GetParkingsDetails(parkings.ToList());
-            model.OrderBy(x => x.distance);
+            model=model.OrderBy(x => x.distance).ToList();
             ViewBag.municipality = municipality;
             return View(model);
         }
@@ -54,7 +54,7 @@ namespace MyParkingSkopje.Controllers
         {
             var parkings = _context.Parkings;
             var model = GetParkingsDetails(parkings.ToList());
-            model.OrderBy(x => x.distance);
+            model=model.OrderBy(x => x.distance).ToList();
             return View(model);
         }
         public ActionResult Bookmarks()
@@ -105,7 +105,7 @@ namespace MyParkingSkopje.Controllers
             _context.SaveChanges();
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-        public double DistanceBetweenTwoCoordinates(double lat1,double lon1,double lat2, double lon2)
+        public static double DistanceBetweenTwoCoordinates(double lat1,double lon1,double lat2, double lon2)
         {
             var R = 6371; // Radius of the earth in km
             var dLat = DegreesToRadians(lat2 - lat1);  // deg2rad below
@@ -118,7 +118,7 @@ namespace MyParkingSkopje.Controllers
             var d = R * c; // Distance in km
             return d;
         }
-        public double DegreesToRadians(double deg)
+        public static double DegreesToRadians(double deg)
         {
             return deg * (Math.PI / 180);
         }

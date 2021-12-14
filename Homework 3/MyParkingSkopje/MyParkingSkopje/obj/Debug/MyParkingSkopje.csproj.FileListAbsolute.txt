@@ -242,3 +242,4 @@ C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 3\MyPark
 C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 3\MyParkingSkopje\MyParkingSkopje\obj\Debug\MyParkingSkopje.Migrations.bookmarks.resources
 C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 3\MyParkingSkopje\MyParkingSkopje\obj\Debug\MyParkingSkopje.Migrations.populateParkingsMunicipalities.resources
 C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 3\MyParkingSkopje\MyParkingSkopje\obj\Debug\MyParkingSkopje.Migrations.populateParkingsMunicipalities1.resources
+C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 3\MyParkingSkopje\MyParkingSkopje\obj\Debug\MyParkingSkopje.Migrations.addDateToReview.resources
