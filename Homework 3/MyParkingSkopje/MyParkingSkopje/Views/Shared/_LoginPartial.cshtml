@@ -6,17 +6,19 @@
     {
         @Html.AntiForgeryToken()
         <div style="float:right;">
-            <a class="white-red-button">@Html.Raw(Html.Action("GetCurrentUserName", "Account"))</a>
-            <a class="dropdown-toggle small-profile-picture" data-toggle="dropdown">
-                <img class="small-profile-picture" src="@Url.Content(Html.Action("GetCurrentUserPicture","Account").ToString())" />
+            <a class=" singleLine white-red-button" style="margin-top:10px;">@Html.Raw(Html.Action("GetCurrentUserName", "Account"))</a>
+            <a class="dropdown-toggle small-profile-picture"  data-toggle="dropdown">
+                <img class="small-profile-picture" style="margin-top:-30px;" src="@Url.Content(Html.Action("GetCurrentUserPicture","Account").ToString())" />
             <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+            
+            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="menu1">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="/Parking/ListParkings">List all Parkings</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="/Profile/EditProfile">Edit your Profile</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="/Manage/ChangePassword">Change your password</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
             </ul>
+            
         </div>
     }
 }
@@ -27,3 +29,15 @@ else
         @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "white-red-button" })
     </div>
 }
+
+<style>
+    .singleLine {
+        width:max-content;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        height:100%;
+        padding:5px;
+
+    }
+</style>

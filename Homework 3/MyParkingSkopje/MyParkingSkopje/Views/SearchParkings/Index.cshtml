@@ -3,10 +3,114 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+
 <!--ovde search bar za search po ime, dropdown lista za search po municipality i kopce za search by location
-    vo modelot e pratena lista od site opstini-municipalities i lista so 5te najdobro oceneti parkinzi-topFiveParkings
-    search po ime vodi kon /SearchParkings/ByName
-    search po opstina vodi kon /SearchParkings/ByMunicipality
-    search po lokacija vodi kon /SearchParkings/ByLocation
-    -->
+vo modelot e pratena lista od site opstini-municipalities i lista so 5te najdobro oceneti parkinzi-topFiveParkings
+search po ime vodi kon /SearchParkings/ByName
+search po opstina vodi kon /SearchParkings/ByMunicipality
+search po lokacija vodi kon /SearchParkings/ByLocation
+-->
+<div class="row" style="padding-top: 30px; ">
+    <div class="col-sm-4 col-sm-4 col-sm-push-8 align-self-center" style="margin-bottom: 30px;">
+        <h1 style="text-align: left; padding-left: 20px;">Search Parkings By: </h1>
+        <div class="col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-xs-8 col-sm-12 col-md-12">
+            <form style="margin-top: 40px;">
+                <div style="width: max-content;">
+                    <label for="byName">Name:</label><br>
+                    <input type="text" id="byName" name="byName" placeholder="Веро Центар">
+                    <input type="submit" value="Show" onclick="name()">
+                </div>
+                <br />
+                <label style="margin-top: 10px">Municipality:</label><br>
+
+                <select name="dropdown" size="1" class="scroll" style="background-color: #EFEFEF; color: #404040; padding: 8px 12px;">
+                    <option value="Центар" selected>Центар</option>
+                    <option value="Водно">Водно</option>
+                    <option value="Визбегово">Визбегово</option>
+                    <option value="Драчево">Драчево</option>
+                    <option value="Ченто">Ченто</option>
+                    <option value="Чаир">Чаир</option>
+                    <option value="Автокоманда">Автокоманда</option>
+                    <option value="Бутел">Бутел</option>
+                    <option value="Железара">Железара</option>
+                    <option value="Сарај">Сарај</option>
+                    <option value="Козле">Козле</option>
+                    <option value="Матка">Матка</option>
+                    <option value="Кисела Вода">Кисела Вода</option>
+                    <option value="Капиштец">Капиштец</option>
+                    <option value="Ѓорче Петров">Ѓорче Петров</option>
+                    <option value="Влае">Влае</option>
+                    <option value="Карпош 4">Карпош 4</option>
+                    <option value="Карпош 3">Карпош 3</option>
+                    <option value="Тафталиџе">Тафталиџе</option>
+
+                </select>
+                <br />
+                <label style="margin-top: 20px;">Location</label>
+                <br />
+                <a href="/SearchParkings/ByLocation" style="width: 80px; height: 30px; padding: 6px 10px; border: 1px solid black; margin-top: 5px; background-color: #EFEFEF; color: #404040;">Locations</a>
+
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-8 col-sm-8 col-sm-pull-4 align-self-center" style="border-left: 2px solid gray; height: max-content; ">
+        <div class="col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 col-xs-12 col-sm-12 col-md-12 col-lg-12 align-self-center text-center">
+            <table class="table" style="margin-top: 10%;">
+                <tr>
+                    <th style="text-align: center;">
+                        @Html.DisplayNameFor(model => model.topFiveParkings[0].parking.Name)
+                    </th>
+                    <th style="text-align: center;">
+                        @Html.DisplayNameFor(model => model.topFiveParkings[0].distance)
+                    </th>
+                    <th style="text-align: center;">
+                        @Html.DisplayNameFor(model => model.topFiveParkings[0].rating)
+                    </th>
+                    <th class="visible-md-block visible-lg-block" style="text-align: center;">
+                        @Html.DisplayNameFor(model => model.topFiveParkings[0].numberOfReviews)
+                    </th>
+                    <th></th>
+                </tr>
+
+    
+                @foreach (var item in Model.topFiveParkings)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.parking.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.distance)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.rating)
+                        </td>
+                        <td class="visible-md-block visible-lg-block">
+                            @Html.DisplayFor(modelItem => item.numberOfReviews)
+                        </td>
+                        <td>
+                            <a href="/Parking/Details/@item.parking.ParkingId">Details</a>
+                        </td>
+                    </tr>
+       
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+
+    .scroll option {
+        min-height: 190px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        width: 300px;
+        display: contents;
+       
+    }
+</style>
+
+
