@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace MyParkingSkopje.Controllers
 {
+    [Authorize]
     public class ReviewController : Controller
     {
         private ApplicationDbContext _context { get; set; }

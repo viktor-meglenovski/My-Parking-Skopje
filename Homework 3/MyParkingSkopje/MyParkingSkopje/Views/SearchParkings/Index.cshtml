@@ -11,19 +11,23 @@ search po opstina vodi kon /SearchParkings/ByMunicipality
 search po lokacija vodi kon /SearchParkings/ByLocation
 -->
 <div class="row" style="padding-top: 30px; ">
-    <div class="col-sm-4 col-sm-4 col-sm-push-8 align-self-center" style="margin-bottom: 30px;">
-        <h1 style="text-align: left; padding-left: 20px;">Search Parkings By: </h1>
-        <div class="col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-xs-8 col-sm-12 col-md-12">
-            <form style="margin-top: 40px;">
-                <div style="width: max-content;">
-                    <label for="byName">Name:</label><br>
-                    <input type="text" id="byName" name="byName" placeholder="Веро Центар">
-                    <input type="submit" value="Show" onclick="name()">
-                </div>
-                <br />
-                <label style="margin-top: 10px">Municipality:</label><br>
+    <div class="col-sm-6 col-sm-6 col-sm-push-6 align-self-center" style="margin-bottom: 30px;">
 
-                <select name="dropdown" size="1" class="scroll" style="background-color: #EFEFEF; color: #404040; padding: 8px 12px;">
+        <div class="green-rounded-corners col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-xs-8 col-sm-12 col-md-12 text-center" style="margin-bottom:5%;">
+            <h1 style="text-align: center; padding-left: 20px; margin-top:30px;">Search Parkings</h1>
+            <hr style="border:1px solid rgb(200,200,200);" />
+
+            <div class="form-inline justify-content-center">
+                <div class="form-group">
+                    <h4>By Name</h4>
+                    <input class="form-control" type="text" id="name" name="name" placeholder="Parking Name">
+                    <button id="nameButton" class="blue-white-button" style="margin-top:10px;">Search</button>
+                </div>
+            </div>
+            <hr style="border:1px solid rgb(200,200,200);" />
+            <form action="/SearchParkings/ByMunicipality" method="GET" class="form-inline justify-content-center">
+                <h4>By Municipality</h4>
+                <select name="municipality" id="municipality" size="1" class="scroll form-control" style="background-color: #EFEFEF; color: #404040; padding: 8px 12px;">
                     <option value="Центар" selected>Центар</option>
                     <option value="Водно">Водно</option>
                     <option value="Визбегово">Визбегово</option>
@@ -43,57 +47,64 @@ search po lokacija vodi kon /SearchParkings/ByLocation
                     <option value="Карпош 4">Карпош 4</option>
                     <option value="Карпош 3">Карпош 3</option>
                     <option value="Тафталиџе">Тафталиџе</option>
-
                 </select>
-                <br />
-                <label style="margin-top: 20px;">Location</label>
-                <br />
-                <a href="/SearchParkings/ByLocation" style="width: 80px; height: 30px; padding: 6px 10px; border: 1px solid black; margin-top: 5px; background-color: #EFEFEF; color: #404040;">Locations</a>
-
+                <input class="blue-white-button" type="submit" value="Show" style="margin-top:10px;">
+            </form>
+            <hr style="border:1px solid rgb(200,200,200);margin-bottom:30px; margin-top:30px;" />
+            <form action="/SearchParkings/ByLocation" method="GET">
+                <input class="blue-white-button-large" type="submit" value="By Location">
+            </form>
+            <hr style="border:1px solid rgb(200,200,200); margin-top:30px; margin-bottom:30px;" />
+            <form style="margin-bottom:5%;" action="/SearchParkings/Bookmarks" method="GET">
+                <input class="blue-white-button-large" type="submit" value="Suggestions">
             </form>
         </div>
     </div>
-    <div class="col-sm-8 col-sm-8 col-sm-pull-4 align-self-center" style="border-left: 2px solid gray; height: max-content; ">
-        <div class="col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 col-xs-12 col-sm-12 col-md-12 col-lg-12 align-self-center text-center">
-            <table class="table" style="margin-top: 10%;">
-                <tr>
-                    <th style="text-align: center;">
-                        @Html.DisplayNameFor(model => model.topFiveParkings[0].parking.Name)
-                    </th>
-                    <th style="text-align: center;">
-                        @Html.DisplayNameFor(model => model.topFiveParkings[0].distance)
-                    </th>
-                    <th style="text-align: center;">
-                        @Html.DisplayNameFor(model => model.topFiveParkings[0].rating)
-                    </th>
-                    <th class="visible-md-block visible-lg-block" style="text-align: center;">
-                        @Html.DisplayNameFor(model => model.topFiveParkings[0].numberOfReviews)
-                    </th>
-                    <th></th>
-                </tr>
-
-    
-                @foreach (var item in Model.topFiveParkings)
-                {
+    <div class="col-sm-6 col-sm-6 col-sm-pull-6 align-self-center" style="border-left: 2px solid gray; height: max-content; ">
+        <div class=" green-rounded-corners col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 col-xs-12 col-sm-12 col-md-12 col-lg-12 align-self-center text-center">
+            <h2>Top Ten Parkings</h2>
+            <table id="topFiveParkings" class="table table-responsive text-left" style="width:90%; padding-left:20px;padding-right:20px; margin:auto;margin-top:2%;margin-bottom:2%;">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.parking.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.distance)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.rating)
-                        </td>
-                        <td class="visible-md-block visible-lg-block">
-                            @Html.DisplayFor(modelItem => item.numberOfReviews)
-                        </td>
-                        <td>
-                            <a href="/Parking/Details/@item.parking.ParkingId">Details</a>
-                        </td>
+                        <th>
+                            Parking Name
+                        </th>
+                        <th>
+                            Distance
+                        </th>
+                        <th>
+                            Rating
+                        </th>
+                        <th class="visible-md-block visible-lg-block">
+                            Municipality
+                        </th>
+                        <th></th>
                     </tr>
-       
-                }
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.topFiveParkings)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.parking.Name)
+                            </td>
+                            <td>
+                                @((int)(item.distance*1000))m
+                            </td>
+                            <td>
+                                @item.rating.ToString("0.00")
+                                <img src="~/Content/Images/star_full.png" / style="width:20px; margin-top:-5px;">
+                                (@item.numberOfReviews)
+                            </td>
+                            <td class="visible-md-block visible-lg-block">
+                                @Html.DisplayFor(modelItem => item.parking.Municipality)
+                            </td>
+                            <td>
+                                <a href="/Parking/Details/@(item.parking.ParkingId)"><img style="width:30px;" src="~/Content/Images/info.png" /></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
     </div>
@@ -109,8 +120,44 @@ search po lokacija vodi kon /SearchParkings/ByLocation
         overflow-x: hidden;
         width: 300px;
         display: contents;
-       
     }
 </style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".parkingInfo").on("click", function (event) {
+            var parId = $(this).atr("parkingId");
+        });
+    });
+</script>
+<script>
+    $("#nameButton").on("click", function () {
+        var text = $("#name").val();
+        console.log(text);
+        if (text == "") {
+            bootbox.alert("Please fill in the search box with some text!");
+        }
+        else {
+            window.location.href = "/SearchParkings/ByName?name=" + text;
+        }
+    });
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var lattitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                $.ajax({
+                    url: "/SearchParkings/UpdateUserLocation",
+                    data: { lattitude, longitude },
+                });
+            });
+        }
+    });
+</script>
+
 
 

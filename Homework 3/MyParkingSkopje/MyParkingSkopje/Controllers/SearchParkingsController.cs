@@ -25,7 +25,7 @@ namespace MyParkingSkopje.Controllers
             //5te parkinzi so najdobar rejting shto se prikazuvaat na glavnata stranica
             var topFiveParkings = GetParkingsDetails(_context.Parkings.ToList());
             topFiveParkings=topFiveParkings.OrderBy(x => x.rating).Reverse().ToList();
-            topFiveParkings.GetRange(0, 5);
+            topFiveParkings=topFiveParkings.GetRange(0, 10);
 
             var model = new SearchParkingsIndexViewModel(municipalities, topFiveParkings);
 

@@ -19,20 +19,6 @@ namespace MyParkingSkopje.Controllers
         {
             return View();
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
         public void PopulateMunicipalities()
         {
             using (var reader = new StreamReader(@"C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 3\MyParkingSkopje\MyParkingSkopje\Content\Data\outputDataNew.txt", System.Text.Encoding.UTF8))

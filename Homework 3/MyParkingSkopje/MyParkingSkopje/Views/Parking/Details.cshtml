@@ -163,10 +163,13 @@
         margin-left: -70px;
         margin-right: 20px;
     }
+    #reviewsTable_paginate {
+        float: none;
+        text-align: center;
+    }
 </style>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
         $("#bookmark, .star, .reviewInfo, a").hover(function () {
@@ -208,7 +211,8 @@
             "bLengthChange": false,
             "searching": false,
             "pageLength": 3,
-            "bInfo": false
+            "bInfo": false,
+            "dom": 'lfBrtip'
         });
     });
 </script>
