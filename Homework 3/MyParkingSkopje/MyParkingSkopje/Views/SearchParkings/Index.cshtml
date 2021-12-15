@@ -144,20 +144,7 @@ search po lokacija vodi kon /SearchParkings/ByLocation
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var lattitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
-                $.ajax({
-                    url: "/SearchParkings/UpdateUserLocation",
-                    data: { lattitude, longitude },
-                });
-            });
-        }
-    });
-</script>
+
 
 
 

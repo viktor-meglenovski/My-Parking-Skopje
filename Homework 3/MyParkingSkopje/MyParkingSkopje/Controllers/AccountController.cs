@@ -90,7 +90,7 @@ namespace MyParkingSkopje.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("ListParkings", "Parking");
+                    return RedirectToAction("Index", "SearchParkings");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

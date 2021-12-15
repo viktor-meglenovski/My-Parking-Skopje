@@ -91,6 +91,8 @@ namespace MyParkingSkopje.Controllers
         public ActionResult UpdateUserLocation(double lattitude, double longitude)
         {
             var userId = User.Identity.GetUserId();
+            if (userId == "")
+                return Json(true, JsonRequestBehavior.AllowGet);
             var existing = _context.UserLocations.Where(x => x.UserId == userId);
             if (existing.Count() == 0)
             {
