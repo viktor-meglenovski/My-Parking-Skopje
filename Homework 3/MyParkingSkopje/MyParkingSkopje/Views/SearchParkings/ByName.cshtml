@@ -3,8 +3,50 @@
     ViewBag.Title = "ByName";
 }
 
-<h2>ByName</h2>
+<h2>By Name</h2>
 <!--tuka nesto Search results for: tekstot sho bil searchan (vo ViewBag.searchText go ima)
-    vo modelot e lista od ParkingDetails kade ima informacii za parkingot, rating, rastojanie do korisnik
-    sortirani se po rating - mozi ke bidi najdobro da nema opcii za sortiranje po drugite koloni za ova - da se dogovorime.
-    -->
+vo modelot e lista od ParkingDetails kade ima informacii za parkingot, rating, rastojanie do korisnik
+sortirani se po rating - mozi ke bidi najdobro da nema opcii za sortiranje po drugite koloni za ova - da se dogovorime.
+-->
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.parking.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.distance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.rating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.numberOfReviews)
+        </th>
+        <th></th>
+    </tr>
+
+    
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.parking.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.distance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.numberOfReviews)
+            </td>
+            <td>
+                <a href="/Parking/Details/@item.parking.ParkingId">Details</a>
+            </td>
+        </tr>
+       
+    }
+</table>
+
