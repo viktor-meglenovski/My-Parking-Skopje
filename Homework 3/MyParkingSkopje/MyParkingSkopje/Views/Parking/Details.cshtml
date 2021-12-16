@@ -9,17 +9,22 @@
     <div class="row" style="height:90%;">
         <div class="col-md-5 text-center" style="">
             <h1 parkingName=@Model.parking.Name id="pId" pIdAtr="@Model.parking.ParkingId" userLatitude=@ViewBag.userLatitude userLongitude=@ViewBag.userLongitude>
-                <button class="back-button" onclick="history.back()">Back</button>
+                <!--    <button class="back-button" onclick="history.back()">Back</button>   -->
+                <span style="display: inline-block; width: 30px; height: 30px; margin-right: 20px;" onclick="history.back()">
+                    <img src="../../Content/Images/baccc.jfif" style="width: 100%; height: 100%; border-radius: 50%;"/>
+                </span>
                 @Model.parking.Name
                 <img style="width:50px;" projectId=@Model.parking.ParkingId id="bookmark" src="@Url.Content(Model.bookmarked==true?"~/Content/Images/heart.png":"~/Content/Images/heart_empty.png")" />
             </h1>
             <div class="frame-smaller" style="position: relative; height: 300px; width: 100%; margin:0;" id="map" latitude=@Model.parking.Lattitude longitude=@Model.parking.Longitude></div>
+            <p><i><b>Click</b> on the map to get the directions.</i></p>
+            <hr style=" border-top: 1px solid rgb(138,219,163)" />
             <div class="row" style="position:relative;">
                 <div class="col-xs-6 text-left" style="height:50%; padding-left:50px;">
-                    <h3>Lattitude: </h3>
-                    <h3>Longitude: </h3>
-                    <h3>Fee: </h3>
-                    <h3>Distance:</h3>
+                    <h3><i>Lattitude:</i> </h3>
+                    <h3><i>Longitude:</i> </h3>
+                    <h3><i>Fee:</i> </h3>
+                    <h3><i>Distance:</i></h3>
                 </div>
                 <div class="col-xs-6 text-right" style="padding-right:50px;">
                     <h3>@(Model.parking.Lattitude)N</h3>
