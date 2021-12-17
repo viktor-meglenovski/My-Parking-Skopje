@@ -251,3 +251,4 @@ C:\Users\Emilija\Documents\GitHub\My-Parking-Skopje\Homework 3\MyParkingSkopje\M
 C:\Users\Emilija\Documents\GitHub\My-Parking-Skopje\Homework 3\MyParkingSkopje\MyParkingSkopje\obj\Debug\MyParkingSkopje.csproj.CopyComplete
 C:\Users\Emilija\Documents\GitHub\My-Parking-Skopje\Homework 3\MyParkingSkopje\MyParkingSkopje\obj\Debug\MyParkingSkopje.dll
 C:\Users\Emilija\Documents\GitHub\My-Parking-Skopje\Homework 3\MyParkingSkopje\MyParkingSkopje\obj\Debug\MyParkingSkopje.pdb
+C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 3\MyParkingSkopje\MyParkingSkopje\obj\Debug\MyParkingSkopje.csprojAssemblyReference.cache

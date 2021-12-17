@@ -38,5 +38,9 @@ namespace MyParkingSkopje.Controllers
                 }
             }
         }
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

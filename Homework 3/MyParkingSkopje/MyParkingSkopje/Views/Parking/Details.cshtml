@@ -11,13 +11,13 @@
             <h1 parkingName=@Model.parking.Name id="pId" pIdAtr="@Model.parking.ParkingId" userLatitude=@ViewBag.userLatitude userLongitude=@ViewBag.userLongitude>
                 <!--    <button class="back-button" onclick="history.back()">Back</button>   -->
                 <span style="display: inline-block; width: 30px; height: 30px; margin-right: 20px;" onclick="history.back()">
-                    <img src="../../Content/Images/baccc.jfif" style="width: 100%; height: 100%; border-radius: 50%;"/>
+                    <img id="back-button" src="../../Content/Images/baccc.jfif" style="width: 100%; height: 100%; border-radius: 50%;"/>
                 </span>
                 @Model.parking.Name
                 <img style="width:50px;" projectId=@Model.parking.ParkingId id="bookmark" src="@Url.Content(Model.bookmarked==true?"~/Content/Images/heart.png":"~/Content/Images/heart_empty.png")" />
             </h1>
             <div class="frame-smaller" style="position: relative; height: 300px; width: 100%; margin:0;" id="map" latitude=@Model.parking.Lattitude longitude=@Model.parking.Longitude></div>
-            <p><i><b>Click</b> on the map to get the directions.</i></p>
+            <p><i>A map that helps you visualize where the selected parking is.</i></p>
             <hr style=" border-top: 1px solid rgb(138,219,163)" />
             <div class="row" style="position:relative;">
                 <div class="col-xs-6 text-left" style="height:50%; padding-left:50px;">
@@ -177,7 +177,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $("#bookmark, .star, .reviewInfo, a").hover(function () {
+        $("#bookmark, .star, .reviewInfo, a, #back-button").hover(function () {
             $(this).css('cursor', 'pointer');
         });
     });
