@@ -1,0 +1,150 @@
+﻿@model MyParkingSkopje.ViewModels.SearchParkingsIndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<!--ovde search bar za search po ime, dropdown lista za search po municipality i kopce za search by location
+vo modelot e pratena lista od site opstini-municipalities i lista so 5te najdobro oceneti parkinzi-topFiveParkings
+search po ime vodi kon /SearchParkings/ByName
+search po opstina vodi kon /SearchParkings/ByMunicipality
+search po lokacija vodi kon /SearchParkings/ByLocation
+-->
+<div class="row" style="padding-top: 30px; ">
+    <div class="col-sm-6 col-sm-6 col-sm-push-6 align-self-center" style="margin-bottom: 30px;">
+
+        <div class="green-rounded-corners col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-xs-8 col-sm-12 col-md-12 text-center" style="margin-bottom:5%;">
+            <h1 style="text-align: center; padding-left: 20px; margin-top:30px;">Search Parkings</h1>
+            <hr style="border:1px solid rgb(200,200,200);" />
+
+            <div class="form-inline justify-content-center">
+                <div class="form-group">
+                    <h4>By Name</h4>
+                    <input class="form-control" type="text" id="name" name="name" placeholder="Parking Name">
+                    <button id="nameButton" class="blue-white-button" style="margin-top:10px;">Search</button>
+                </div>
+            </div>
+            <hr style="border:1px solid rgb(200,200,200);" />
+            <form action="/SearchParkings/ByMunicipality" method="GET" class="form-inline justify-content-center">
+                <h4>By Municipality</h4>
+                <select name="municipality" id="municipality" size="1" class="scroll form-control" style="background-color: #EFEFEF; color: #404040; padding: 8px 12px;">
+                    <option value="Центар" selected>Центар</option>
+                    <option value="Водно">Водно</option>
+                    <option value="Визбегово">Визбегово</option>
+                    <option value="Драчево">Драчево</option>
+                    <option value="Ченто">Ченто</option>
+                    <option value="Чаир">Чаир</option>
+                    <option value="Автокоманда">Автокоманда</option>
+                    <option value="Бутел">Бутел</option>
+                    <option value="Железара">Железара</option>
+                    <option value="Сарај">Сарај</option>
+                    <option value="Козле">Козле</option>
+                    <option value="Матка">Матка</option>
+                    <option value="Кисела Вода">Кисела Вода</option>
+                    <option value="Капиштец">Капиштец</option>
+                    <option value="Ѓорче Петров">Ѓорче Петров</option>
+                    <option value="Влае">Влае</option>
+                    <option value="Карпош 4">Карпош 4</option>
+                    <option value="Карпош 3">Карпош 3</option>
+                    <option value="Тафталиџе">Тафталиџе</option>
+                </select>
+                <input class="blue-white-button" type="submit" value="Show" style="margin-top:10px;">
+            </form>
+            <hr style="border:1px solid rgb(200,200,200);margin-bottom:30px; margin-top:30px;" />
+            <form action="/SearchParkings/ByLocation" method="GET">
+                <input class="blue-white-button-large" type="submit" value="By Location">
+            </form>
+            <hr style="border:1px solid rgb(200,200,200); margin-top:30px; margin-bottom:30px;" />
+            <form style="margin-bottom:5%;" action="/SearchParkings/Bookmarks" method="GET">
+                <input class="blue-white-button-large" type="submit" value="Suggestions">
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-6 col-sm-6 col-sm-pull-6 align-self-center" style="border-left: 2px solid gray; height: max-content; ">
+        <div class=" green-rounded-corners col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 col-xs-12 col-sm-12 col-md-12 col-lg-12 align-self-center text-center">
+            <h2>Top Ten Parkings</h2>
+            <table id="topFiveParkings" class="table table-responsive text-left" style="width:90%; padding-left:20px;padding-right:20px; margin:auto;margin-top:2%;margin-bottom:2%;">
+                <thead>
+                    <tr>
+                        <th>
+                            Parking Name
+                        </th>
+                        <th>
+                            Distance
+                        </th>
+                        <th>
+                            Rating
+                        </th>
+                        <th class="visible-md-block visible-lg-block">
+                            Municipality
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.topFiveParkings)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.parking.Name)
+                            </td>
+                            <td>
+                                @((int)(item.distance*1000))m
+                            </td>
+                            <td>
+                                @item.rating.ToString("0.00")
+                                <img src="~/Content/Images/star_full.png" / style="width:20px; margin-top:-5px;">
+                                (@item.numberOfReviews)
+                            </td>
+                            <td class="visible-md-block visible-lg-block">
+                                @Html.DisplayFor(modelItem => item.parking.Municipality)
+                            </td>
+                            <td>
+                                <a href="/Parking/Details/@(item.parking.ParkingId)"><img style="width:30px;" src="~/Content/Images/info.png" /></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+
+    .scroll option {
+        min-height: 190px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        width: 300px;
+        display: contents;
+    }
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".parkingInfo").on("click", function (event) {
+            var parId = $(this).atr("parkingId");
+        });
+    });
+</script>
+<script>
+    $("#nameButton").on("click", function () {
+        var text = $("#name").val();
+        console.log(text);
+        if (text == "") {
+            bootbox.alert("Please fill in the search box with some text!");
+        }
+        else {
+            window.location.href = "/SearchParkings/ByName?name=" + text;
+        }
+    });
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+
+

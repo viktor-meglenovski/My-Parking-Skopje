@@ -1,0 +1,22 @@
+﻿@model MyParkingSkopje.ViewModels.ReviewDetails
+
+<div>
+    <h3 style="float:left;">@Model.name @Model.surname</h3>
+    <h3 style="float:right;">@Model.review.datetime</h3>
+    <br /><br /><br />
+    <div style="margin:auto;">
+        @for (var i = 0; i < 5; i++)
+        {
+            if (i < Model.review.Stars)
+            {
+                <img class="star-image-review star" src=@Url.Content("~/Content/Images/star_full.png") />
+            }
+            else
+            {
+                <img class="star-image-review star" src=@Url.Content("~/Content/Images/star_empty.png") />
+            }
+        }
+    </div>
+    <br />
+    <h4>@Model.review.ReviewText</h4>
+</div>

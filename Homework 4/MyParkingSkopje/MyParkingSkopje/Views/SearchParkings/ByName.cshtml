@@ -1,0 +1,92 @@
+﻿@model IEnumerable<MyParkingSkopje.ViewModels.ParkingDetails>
+@{
+    ViewBag.Title = "ByName";
+}
+
+<!--tuka nesto Search results for: tekstot sho bil searchan (vo ViewBag.searchText go ima)
+vo modelot e lista od ParkingDetails kade ima informacii za parkingot, rating, rastojanie do korisnik
+sortirani se po rating - mozi ke bidi najdobro da nema opcii za sortiranje po drugite koloni za ova - da se dogovorime.
+-->
+
+<div class="row">
+    <div class="green-rounded-corners text-center col-xs-10 col-xs-offset-1" style="margin-top:2%;">
+        <div class="row ">
+            <div class="col-xs-9 text-left" style="padding-left:40px;">
+                <h2 style="padding-right:100px;">Search results for: <strong>@ViewBag.searchText</strong></h2>
+            </div>
+            <div class="col-xs-3 text-right" style="margin-top:10px;">
+                <button class="back-button" onclick="history.back()">Back</button>
+            </div>
+        </div>
+        <br />
+        <table id="table" class="table table-responsive text-left" style="width:90%; padding-left:20px;padding-right:20px; margin:auto;margin-top:2%;margin-bottom:2%;">
+            <thead>
+                <tr>
+                    <th>
+                        Parking Name
+                    </th>
+                    <th>
+                        Distance
+                    </th>
+                    <th>
+                        Rating
+                    </th>
+                    <th class="visible-md-block visible-lg-block">
+                        Municipality
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.parking.Name)
+                        </td>
+                        <td data-order=@item.distance>
+                            @((int)(item.distance*1000))m
+                        </td>
+                        <td data-order=@item.rating>
+                            @item.rating.ToString("0.00")
+                            <img src="~/Content/Images/star_full.png" / style="width:20px; margin-top:-5px;">
+                            (@item.numberOfReviews)
+                        </td>
+                        <td class="visible-md-block visible-lg-block">
+                            @Html.DisplayFor(modelItem => item.parking.Municipality)
+                        </td>
+                        <td>
+                            <a href="/Parking/Details/@(item.parking.ParkingId)"><img style="width:30px;" src="~/Content/Images/info.png" /></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#table").DataTable({
+            "columns": [
+                { "name": "name", "orderable": false },
+                { "name": "distance", "orderable": true },
+                { "name": "rating", "orderable": true },
+                { "name": "municipality", "orderable": false },
+                { "name": "info", "orderable": false }
+            ],
+            "ordering": true,
+            "bLengthChange": false,
+            "searching": false,
+            "pageLength": 9,
+            "bInfo": false,
+            "dom": 'lfBrtip'
+        });
+    });
+</script>
+<style>
+    #table_paginate {
+        float: none;
+        text-align: center;
+    }
+</style>
