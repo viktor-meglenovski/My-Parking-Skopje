@@ -11,10 +11,12 @@ namespace MyParkingSkopje.Service
     public class ParkingService
     {
         private static ParkingService parkingService { get; set; }
+        private ReviewService reviewService { get; set; }
         private ApplicationDbContext _context { get; set; }
         private ParkingService()
         {
             this._context = new ApplicationDbContext();
+            this.reviewService = ReviewService.ReviewServiceInstance();
         }
         public static ParkingService ParkingServiceInstance()
         {
@@ -28,10 +30,10 @@ namespace MyParkingSkopje.Service
         {
             Parking p = _context.Parkings.Find(parkingId);
             //Ги земаме сите Reviews за дадениот паркинг
-            var reviews = _context.Reviews.Where(x => x.ParkingId == p.ParkingId).ToList();
+            var reviews = reviewService.getAllReviewsForParking(parkingId);
 
             //Ги добиваме деталите за сите Reviews за тој паркинг.
-            var reviewsDetails = getReviewsDetails(reviews);
+            var reviewsDetails = reviewService.getReviewsDetails(reviews);
 
             //Вкупен број на Reviews за тој паркинг
             int numberOfReviews = reviews.Count();
@@ -48,10 +50,7 @@ namespace MyParkingSkopje.Service
 
             //Добивање на веќе постоечко Review за дадениот паркинг од тековно најавениот корисник
             //Податоците од веќе постоечкото Review се прикажуваат кога корисник ќе отвори страна на паркинг за која веќе има внесено Review
-            var rev = _context.Reviews.Where(x => x.ParkingId == p.ParkingId && x.UserId == userId).ToList();
-            Review existingReview = null;
-            if (rev.Count > 0)
-                existingReview = rev.First();
+            var existingReview = reviewService.getExistingReview(userId, parkingId);
 
             //Враќање на сите детали за паркингот
             return new ParkingDetailsWithReviews(p, rating, numberOfReviews, distance, reviewsDetails, bookmarked, existingReview);
@@ -70,23 +69,7 @@ namespace MyParkingSkopje.Service
                 rating += r.Stars;
             return ((float)rating) / numberOfReviews;
         }
-        //Метод кој враќа детали за листа од Review објекти
-        public List<ReviewDetails> getReviewsDetails(List<Review> reviews)
-        {
-            //За секој Review ги земаме деталите и ги зачувуваме во листа која ја враќаме како резултат
-            var reviewsDetails = new List<ReviewDetails>();
-            foreach (Review r in reviews)
-                reviewsDetails.Add(getReviewDetails(r));
-            return reviewsDetails;
-        }
-        //Метод кој враќа детали за еден Review објект
-        public ReviewDetails getReviewDetails(Review review)
-        {
-            //Земаме кој корисник го напишал соодветното Review
-            var user = _context.Users.Where(x => x.Id == review.UserId).First();
-            //Покрај Review, ги враќаме и името и презимето на корисникот кој го напишал истото.
-            return new ReviewDetails(review, user.FirstName, user.LastName);
-        }
+        
         //Метод кој проверува дали тековниот корисник го има зачувано паркингот со ID пуштено како аргумент во својата листа на заувани паркинзи
         public Boolean checkIfBookmarked(string userId, int parkingId)
         {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using MyParkingSkopje.Models;
+using MyParkingSkopje.Service;
 using MyParkingSkopje.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,56 +10,51 @@ using System.Web.Mvc;
 
 namespace MyParkingSkopje.Controllers
 {
+    //Контролер преку кој се креираат, ажурираат, бришат и добиваат информации за објекти од класата Review
     [Authorize]
     public class ReviewController : Controller
     {
-        private ApplicationDbContext _context { get; set; }
+        private ReviewService reviewService { get; set; }
         public ReviewController()
         {
-            this._context = new ApplicationDbContext();
+            this.reviewService = ReviewService.ReviewServiceInstance();
         }
+        //GET акција која ги враќа сите детали за Review со ID зададено како параметар
+        public ActionResult GetReviewDetails(int id)
+        {
+            //Се земаат деталите за соодветното Review
+            var model = reviewService.getReviewDetails(id);
+            return PartialView(model);
+        }
+        //POST акција за додавање на нов Review за соодветниот паркинг со соодветните атрибути од тековно најавениот корисник
         [HttpPost]
         public ActionResult AddReview(int parkingId, int stars, string reviewText)
         {
-            var userId = User.Identity.GetUserId();
-            var review = new Review(userId,parkingId,stars,reviewText);
-            _context.Reviews.Add(review);
-            _context.SaveChanges();
+            //Се повикува соодветниот метод од сервисот и се враќа успешен JSON одговор
+            reviewService.addReview(getUserId(), parkingId, stars, reviewText);
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult GetReviewDetails(int id)
-        {
-            var review = _context.Reviews.Find(id);
-            var user = _context.Users.Where(x => x.Id == review.UserId).First();
-            var model = new ReviewDetails(review,user.FirstName,user.LastName);
-            return PartialView(model);
-        }
+        //JSON POST акција за ажурирање на веќе постоечко Review напишано од тековно најавениот корисник
         [HttpPost]
         public ActionResult EditReview(int parkingId, int stars, string reviewText)
         {
-            var userId = User.Identity.GetUserId();
-            var review = _context.Reviews.Where(x => x.UserId == userId && x.ParkingId == parkingId).ToList();
-            if (review.Count > 0)
-            {
-                var toEdit = review[0];
-                toEdit.ReviewText = reviewText;
-                toEdit.Stars = stars;
-                toEdit.datetime = DateTime.Now;
-                _context.SaveChanges();
-            }
+            //Се повикува соодветниот метод од сервисот и се враќа успешен JSON одговор
+            reviewService.editReview(getUserId(), parkingId, stars, reviewText);
             return Json(true, JsonRequestBehavior.AllowGet);
         }
+
+        //JSON GET акција за бришење на веќе постоечко Review за паркинг со ID дадено како аргумент, напишано од тековно најавениот корисник
         public ActionResult DeleteReview(int parkingId)
         {
-            var userId = User.Identity.GetUserId();
-            var review = _context.Reviews.Where(x => x.UserId == userId && x.ParkingId == parkingId).ToList();
-            if (review.Count > 0)
-            {
-                var toDelete = review[0];
-                _context.Reviews.Remove(toDelete);
-                _context.SaveChanges();
-            }
+            //Се повикува соодветниот метод од сервисот и се враќа успешен JSON одговор
+            reviewService.deleteReview(getUserId(), parkingId);
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        //Метод кој го враќа ID на тековно најавениот корисник
+        public string getUserId()
+        {
+            return User.Identity.GetUserId();
         }
     }
 }

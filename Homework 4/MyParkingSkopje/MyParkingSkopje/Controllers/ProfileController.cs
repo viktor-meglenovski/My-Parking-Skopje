@@ -40,16 +40,20 @@ namespace MyParkingSkopje.Controllers
             return View(model);
         }
 
-
+        //JSON POST акција преку која привремено се зачувува фајл кој се испраќа до серверот
         [HttpPost]
         public ActionResult ProfileImageUpload()
         {
+            //Ако во барањето има прикачен фајл:
             if (Request.Files.Count != 0)
             {
                 var file = Request.Files[0];
+                //Фајлот се зачувува на предодредена привремена локација
                 var newPath = profileService.saveImageToTempFolder(file, Server.MapPath("~/UserUploads/Temp"));
+                //Се враќа успешен JSON одговор и параметар newImagePath кој ја означува патеката на ново поставениот фајл
                 return Json(new { success = true, newImagePath = newPath }, JsonRequestBehavior.AllowGet);
             }
+            //Ако во барањето не се прикачени фајлови се враќа неуспешен JSON одговор
             return Json(new { success = false }, JsonRequestBehavior.AllowGet);
         }
         //Метод кој го враќа ID на тековно најавениот корисник
