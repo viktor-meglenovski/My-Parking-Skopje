@@ -14,20 +14,11 @@ namespace MyParkingSkopje.Controllers
     [Authorize]
     public class ParkingController : Controller
     {
-        //Инстанца од контекстот на базата на податоци која се користи
-        private ApplicationDbContext _context { get; set; }
         //Класа во која се наоѓа бизнис логиката за овој контролер
         private ParkingService parkingService { get; set; }
         public ParkingController()
         {
-            this._context = new ApplicationDbContext();
             this.parkingService = ParkingService.ParkingServiceInstance();
-        }
-        //GET акција која ги листа сите паркинзи без дополнителни детали
-        public ActionResult ListParkings()
-        {
-            var model = _context.Parkings.ToList();
-            return View(model);
         }
         //GET акција која ги враќа сите информации и детали за паркингот со ID пратено како параметар
         public ActionResult Details(int id)

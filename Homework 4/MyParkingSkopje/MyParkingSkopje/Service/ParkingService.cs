@@ -12,7 +12,7 @@ namespace MyParkingSkopje.Service
     {
         private static ParkingService parkingService { get; set; }
         private ApplicationDbContext _context { get; set; }
-        public ParkingService()
+        private ParkingService()
         {
             this._context = new ApplicationDbContext();
         }
