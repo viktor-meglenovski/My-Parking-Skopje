@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using MyParkingSkopje.Models;
+using MyParkingSkopje.Service;
 using MyParkingSkopje.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,78 +10,64 @@ using System.Web.Mvc;
 
 namespace MyParkingSkopje.Controllers
 {
+    //Контролер за листање и добивање на детални информации за паркинзите
     [Authorize]
     public class ParkingController : Controller
     {
+        //Инстанца од контекстот на базата на податоци која се користи
         private ApplicationDbContext _context { get; set; }
+        //Класа во која се наоѓа бизнис логиката за овој контролер
+        private ParkingService parkingService { get; set; }
         public ParkingController()
         {
             this._context = new ApplicationDbContext();
+            this.parkingService = new ParkingService();
         }
+        //GET акција која ги листа сите паркинзи без дополнителни детали
         public ActionResult ListParkings()
         {
             var model = _context.Parkings.ToList();
             return View(model);
         }
+        //GET акција која ги враќа сите информации и детали за паркингот со ID пратено како параметар
         public ActionResult Details(int id)
         {
-            var userId = User.Identity.GetUserId();
-            var userLocation = _context.UserLocations.Where(x => x.UserId == userId).First();
+            //Го земаме тековниот најавен корисник
+            var userId = getUserId();
+
+            //Проверка дали во базата имаме зачувано локација за тековниот корисник
+            var userLocation = parkingService.getUserLocation(userId);
+            //Доколку во базата нема зачувано локација за тековниот корисник, правиме редирекција кон почетната страна на апликацијата
             if (userLocation == null)
-                return View("Index", "Home");
-            var parking = _context.Parkings.Find(id);
-            var model = GetParkingsDetails(parking);
+                return RedirectToAction("Index", "Home");
+
+            //Во ViewBag ги зачувуваме координатите на локацијата на тековниот корисник
             ViewBag.userLatitude = userLocation.Lattitude;
             ViewBag.userLongitude = userLocation.Longitude;
+
+            //Во моделот поставуваме објект од класата GetParkingDetails во кој ги имаме сите детали за паркингот
+            var model = parkingService.GetParkingsDetails(id, userId);
+
             return View(model);
         }
-        public ParkingDetailsWithReviews GetParkingsDetails(Parking p)
-        {
-            var reviews = _context.Reviews.Where(x => x.ParkingId == p.ParkingId).ToList();
-            var reviewsDetails = new List<ReviewDetails>();
-            foreach(Review r in reviews)
-            {
-                var user = _context.Users.Where(x => x.Id == r.UserId).First();
-                var temp = new ReviewDetails(r, user.FirstName, user.LastName);
-                reviewsDetails.Add(temp);
-            }
-            int numberOfReviews = reviews.Count();
-            float rating = 0;
-            if (numberOfReviews == 0)
-               rating = 0;
-            else
-            {
-                foreach (Review r in reviews)
-                    rating += r.Stars;
-                rating = ((float)rating) / numberOfReviews;
-            }
-            var userId = User.Identity.GetUserId();
-            var userLocation = _context.UserLocations.Where(x => x.UserId == userId).First();
-            var distance = SearchParkingsController.DistanceBetweenTwoCoordinates(userLocation.Lattitude, userLocation.Longitude, p.Lattitude, p.Longitude);
-            Boolean bookmarked = _context.Bookmarks.Where(x => x.ParkingId == p.ParkingId && x.UserId == userId).ToList().Count == 0 ? false : true;
-            
-            var rev = _context.Reviews.Where(x => x.ParkingId == p.ParkingId && x.UserId == userId).ToList();
-            Review existingReview = null;
-            if (rev.Count > 0)
-                existingReview = rev.First();
-            var result = new ParkingDetailsWithReviews(p,rating,numberOfReviews,distance,reviewsDetails,bookmarked, existingReview);
-            return result;
-        }
+        
+        //JSON Акција со која го зачувуваме паркингот со ID пратено како параметар во листата на зачувани паркинзи за тековниот корисник
         public ActionResult BookmarkParking(int id)
         {
-            var userId = User.Identity.GetUserId();
-            var exists = _context.Bookmarks.Where(x => x.UserId == userId && x.ParkingId == id).ToList();
-            if(exists.Count==0)
-            {
-                _context.Bookmarks.Add(new Bookmark(id, userId));
-            }
-            else
-            {
-                var toRemove = exists[0];
-                _context.Bookmarks.Remove(toRemove);
-            }
-            _context.SaveChanges();
-            return Json(new { success= true, newState=exists.Count==0?true:false }, JsonRequestBehavior.AllowGet);
+            //Го земаме тековно најавениот корисник
+            var userId = getUserId();
+
+            //Го повикуваме соодветниот метод од ParkingService
+            var newState = parkingService.bookmarkParking(userId, id);
+
+            //Враќаме успешен JSON одговор во кој параметарот newState ја одредува новата состојба (дали сега корисникот го има или го нема зачувано паркингот во својата листа)
+            //Овој параметар се користи на front за да се одреди која икона (празно или полно срце) треба да се прикаже на страната.
+            return Json(new { success = true, newState = newState }, JsonRequestBehavior.AllowGet);
+        }
+        //Метод кој го враќа ID на тековно најавениот корисник
+        public string getUserId()
+        {
+            return User.Identity.GetUserId();
         }
     }
 }
