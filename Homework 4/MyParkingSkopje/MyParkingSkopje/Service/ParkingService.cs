@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MyParkingSkopje.Service
 {
-    //Класа во која се наоѓа бизнис логиката за ParkingController
+    //Класа во која се наоѓа бизнис логиката за ParkingController - имплементира Singleton Design Pattern
     public class ParkingService
     {
         private static ParkingService parkingService { get; set; }
