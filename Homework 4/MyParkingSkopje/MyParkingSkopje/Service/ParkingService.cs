@@ -10,10 +10,18 @@ namespace MyParkingSkopje.Service
     //Класа во која се наоѓа бизнис логиката за ParkingController
     public class ParkingService
     {
+        private static ParkingService parkingService { get; set; }
         private ApplicationDbContext _context { get; set; }
         public ParkingService()
         {
             this._context = new ApplicationDbContext();
+        }
+        public static ParkingService ParkingServiceInstance()
+        {
+            if (parkingService == null)
+                parkingService = new ParkingService();
+            return parkingService;
+
         }
         //Метод кој ги враќа сите детали за паркингот што е пуштен како параметар
         public ParkingDetailsWithReviews GetParkingsDetails(int parkingId, string userId)

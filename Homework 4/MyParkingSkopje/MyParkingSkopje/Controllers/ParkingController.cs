@@ -21,7 +21,7 @@ namespace MyParkingSkopje.Controllers
         public ParkingController()
         {
             this._context = new ApplicationDbContext();
-            this.parkingService = new ParkingService();
+            this.parkingService = ParkingService.ParkingServiceInstance();
         }
         //GET акција која ги листа сите паркинзи без дополнителни детали
         public ActionResult ListParkings()
