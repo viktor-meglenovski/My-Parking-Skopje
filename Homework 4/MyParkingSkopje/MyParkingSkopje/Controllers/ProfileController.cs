@@ -56,6 +56,16 @@ namespace MyParkingSkopje.Controllers
             //Ако во барањето не се прикачени фајлови се враќа неуспешен JSON одговор
             return Json(new { success = false }, JsonRequestBehavior.AllowGet);
         }
+
+        //GET JSON акција која ја ажурира локацијата на тековно најавениот корисник
+        public ActionResult UpdateUserLocation(double lattitude, double longitude)
+        {
+            var userId = getUserId();
+            if (userId == "")
+                return Json(true, JsonRequestBehavior.AllowGet);
+            profileService.updateUserLocation(lattitude, longitude, getUserId());
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
         //Метод кој го враќа ID на тековно најавениот корисник
         public string getUserId()
         {

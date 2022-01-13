@@ -9,16 +9,16 @@ namespace MyParkingSkopje.ViewModels
     public class SearchParkingsIndexViewModel
     {
         public List<Municipality> municipalities { get; set; }
-        public List<ParkingDetails> topFiveParkings { get; set; }
+        public List<ParkingDetailsWithReviews> topFiveParkings { get; set; }
         public SearchParkingsIndexViewModel() 
         {
             this.municipalities = new List<Municipality>();
-            this.topFiveParkings = new List<ParkingDetails>();
+            this.topFiveParkings = new List<ParkingDetailsWithReviews>();
         }
-        public SearchParkingsIndexViewModel(List<Municipality> municipalities,List<ParkingDetails> topFiveParkings) 
+        public SearchParkingsIndexViewModel(List<Municipality> municipalities,List<ParkingDetailsWithReviews> topFiveParkings) 
         {
             this.municipalities = new List<Municipality>();
-            this.topFiveParkings = new List<ParkingDetails>();
+            this.topFiveParkings = new List<ParkingDetailsWithReviews>();
             this.municipalities = municipalities;
             this.topFiveParkings = topFiveParkings;
         }

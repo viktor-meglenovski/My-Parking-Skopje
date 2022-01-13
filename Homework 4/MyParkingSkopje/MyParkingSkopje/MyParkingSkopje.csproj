@@ -263,6 +263,7 @@
     <Compile Include="Service\ParkingService.cs" />
     <Compile Include="Service\ProfileService.cs" />
     <Compile Include="Service\ReviewService.cs" />
+    <Compile Include="Service\SearchParkingsService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\ParkingDetails.cs" />

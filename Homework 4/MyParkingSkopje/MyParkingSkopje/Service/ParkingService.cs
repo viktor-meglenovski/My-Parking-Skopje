@@ -25,8 +25,13 @@ namespace MyParkingSkopje.Service
             return parkingService;
 
         }
+        //Метод кој враќа листа од сите паркинзи зачувани во базата
+        public List<Parking> getAllParkings()
+        {
+            return _context.Parkings.ToList();
+        }
         //Метод кој ги враќа сите детали за паркингот што е пуштен како параметар
-        public ParkingDetailsWithReviews GetParkingsDetails(int parkingId, string userId)
+        public ParkingDetailsWithReviews GetParkingDetails(int parkingId, string userId)
         {
             Parking p = _context.Parkings.Find(parkingId);
             //Ги земаме сите Reviews за дадениот паркинг
@@ -54,6 +59,15 @@ namespace MyParkingSkopje.Service
 
             //Враќање на сите детали за паркингот
             return new ParkingDetailsWithReviews(p, rating, numberOfReviews, distance, reviewsDetails, bookmarked, existingReview);
+        }
+
+        //Метод кој ги враќа деталите за листа од паркинзи
+        public List<ParkingDetailsWithReviews> GetParkingsDetails(List<Parking> parkings, string userId)
+        {
+            var result = new List<ParkingDetailsWithReviews>();
+            foreach (Parking p in parkings)
+                result.Add(GetParkingDetails(p.ParkingId, userId));
+            return result;
         }
         //Метод кој пресметува просечен рејтинг врз основа на листа од Review објекти
         public float calculateAverageRating(List<Review> reviews)

@@ -43,7 +43,7 @@
                 var lattitude = position.coords.latitude;
                 var longitude = position.coords.longitude;
                 $.ajax({
-                    url: "/SearchParkings/UpdateUserLocation",
+                    url: "/Profile/UpdateUserLocation",
                     data: { lattitude, longitude },
                 });
             });

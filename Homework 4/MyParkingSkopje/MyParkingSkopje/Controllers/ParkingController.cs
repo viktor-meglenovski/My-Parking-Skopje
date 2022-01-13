@@ -37,7 +37,7 @@ namespace MyParkingSkopje.Controllers
             ViewBag.userLongitude = userLocation.Longitude;
 
             //Во моделот поставуваме објект од класата GetParkingDetails во кој ги имаме сите детали за паркингот
-            var model = parkingService.GetParkingsDetails(id, userId);
+            var model = parkingService.GetParkingDetails(id, userId);
 
             return View(model);
         }

@@ -2,7 +2,7 @@
 using MyParkingSkopje.ViewModels;
 using System.IO;
 using System.Web;
-
+using System.Linq;
 
 namespace MyParkingSkopje.Service
 {
@@ -84,6 +84,26 @@ namespace MyParkingSkopje.Service
 
             //Ја враќаме привремената патека на новата слика
             return Path.Combine(@"/UserUploads/Temp", Path.GetFileName(fileName));
+        }
+        //Метод кој ја ажурира локацијата на корисникот со даденото ID
+        public void updateUserLocation(double lattitude, double longitude, string userId)
+        {
+            //Проверка дали постои UserLocation објект за дадениот корисник
+            var existing = _context.UserLocations.Where(x => x.UserId == userId);
+            //Ако не постои таков објект:
+            if (existing.Count() == 0)
+                //Додади нова инстанца од UserLocation со соодветните вредности
+                _context.UserLocations.Add(new UserLocation(userId, lattitude, longitude));
+            else
+            //Ако веќе постои таков објект:
+            {
+                //Ажурирај ги вредностите
+                var existingLocation = existing.First();
+                existingLocation.Lattitude = lattitude;
+                existingLocation.Longitude = longitude;
+            }
+            //Зачувај ги промените во база
+            _context.SaveChanges();
         }
     }
 }

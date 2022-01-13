@@ -7,6 +7,7 @@ using System.Web;
 
 namespace MyParkingSkopje.Service
 {
+    //Класа во која се наоѓа бизнис логиката за ReviewController - имплементира Singleton Design Pattern
     public class ReviewService
     {
         private static ReviewService reviewService { get; set; }
