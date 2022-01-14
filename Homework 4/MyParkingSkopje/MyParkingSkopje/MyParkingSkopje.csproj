@@ -411,6 +411,17 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\App\bookmarkParking.js" />
+    <Content Include="Scripts\App\hoverDetails.js" />
+    <Content Include="Scripts\App\imageUpload.js" />
+    <Content Include="Scripts\App\mapParkingAndUserLocation.js" />
+    <Content Include="Scripts\App\notSortableResultsDatatable.js" />
+    <Content Include="Scripts\App\review.js" />
+    <Content Include="Scripts\App\reviewInfo.js" />
+    <Content Include="Scripts\App\reviewsDatatable.js" />
+    <Content Include="Scripts\App\searchByName.js" />
+    <Content Include="Scripts\App\sortableResultsDatatable.js" />
+    <Content Include="Scripts\App\updateUserLocation.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -540,14 +551,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Parking\ListParkings.cshtml" />
     <Content Include="Views\Profile\EditProfile.cshtml" />
     <Content Include="Views\Parking\Details.cshtml" />
     <Content Include="Views\SearchParkings\Index.cshtml" />
-    <Content Include="Views\SearchParkings\ByName.cshtml" />
-    <Content Include="Views\SearchParkings\ByMunicipality.cshtml" />
     <Content Include="Views\SearchParkings\ByLocation.cshtml" />
-    <Content Include="Views\SearchParkings\Bookmarks.cshtml" />
+    <Content Include="Views\SearchParkings\SortableSearchResults.cshtml" />
     <Content Include="Views\Review\GetReviewDetails.cshtml" />
     <Content Include="Views\Home\Error404.cshtml" />
     <Content Include="Views\Home\Error500.cshtml" />
@@ -562,7 +570,6 @@
     <Folder Include="UserUploads\91f6c581-c78a-44e4-8c4d-80203ebeba8c\" />
     <Folder Include="UserUploads\e67c3f78-124c-4f67-9e05-3a04ceb2ee90\" />
     <Folder Include="UserUploads\ff990aba-0e02-4942-9bad-3e69ba8079f4\" />
-    <Folder Include="Views\PopulateParkings\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

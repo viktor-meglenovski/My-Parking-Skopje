@@ -26,20 +26,12 @@ namespace MyParkingSkopje.Controllers
             var model = reviewService.getReviewDetails(id);
             return PartialView(model);
         }
-        //POST акција за додавање на нов Review за соодветниот паркинг со соодветните атрибути од тековно најавениот корисник
+        //POST акција за додавање на нов Review или ажурирање на постоечки Review за соодветниот паркинг со соодветните атрибути од тековно најавениот корисник
         [HttpPost]
-        public ActionResult AddReview(int parkingId, int stars, string reviewText)
+        public ActionResult AddOrEditReview(int parkingId, int stars, string reviewText)
         {
             //Се повикува соодветниот метод од сервисот и се враќа успешен JSON одговор
-            reviewService.addReview(getUserId(), parkingId, stars, reviewText);
-            return Json(true, JsonRequestBehavior.AllowGet);
-        }
-        //JSON POST акција за ажурирање на веќе постоечко Review напишано од тековно најавениот корисник
-        [HttpPost]
-        public ActionResult EditReview(int parkingId, int stars, string reviewText)
-        {
-            //Се повикува соодветниот метод од сервисот и се враќа успешен JSON одговор
-            reviewService.editReview(getUserId(), parkingId, stars, reviewText);
+            reviewService.addOrEditReview(getUserId(), parkingId, stars, reviewText);
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 

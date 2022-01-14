@@ -1,6 +1,6 @@
 ﻿@model MyParkingSkopje.ViewModels.SearchParkingsIndexViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Search Parkings";
 }
 
 
@@ -28,25 +28,10 @@ search po lokacija vodi kon /SearchParkings/ByLocation
             <form action="/SearchParkings/ByMunicipality" method="GET" class="form-inline justify-content-center">
                 <h4>By Municipality</h4>
                 <select name="municipality" id="municipality" size="1" class="scroll form-control" style="background-color: #EFEFEF; color: #404040; padding: 8px 12px;">
-                    <option value="Центар" selected>Центар</option>
-                    <option value="Водно">Водно</option>
-                    <option value="Визбегово">Визбегово</option>
-                    <option value="Драчево">Драчево</option>
-                    <option value="Ченто">Ченто</option>
-                    <option value="Чаир">Чаир</option>
-                    <option value="Автокоманда">Автокоманда</option>
-                    <option value="Бутел">Бутел</option>
-                    <option value="Железара">Железара</option>
-                    <option value="Сарај">Сарај</option>
-                    <option value="Козле">Козле</option>
-                    <option value="Матка">Матка</option>
-                    <option value="Кисела Вода">Кисела Вода</option>
-                    <option value="Капиштец">Капиштец</option>
-                    <option value="Ѓорче Петров">Ѓорче Петров</option>
-                    <option value="Влае">Влае</option>
-                    <option value="Карпош 4">Карпош 4</option>
-                    <option value="Карпош 3">Карпош 3</option>
-                    <option value="Тафталиџе">Тафталиџе</option>
+                    @foreach(var m in Model.municipalities)
+                    {
+                        <option value=@m.MunicipalityName>@m.MunicipalityName</option>
+                    }
                 </select>
                 <input class="blue-white-button" type="submit" value="Show" style="margin-top:10px;">
             </form>
@@ -93,7 +78,7 @@ search po lokacija vodi kon /SearchParkings/ByLocation
                             </td>
                             <td>
                                 @item.rating.ToString("0.00")
-                                <img src="~/Content/Images/star_full.png" / style="width:20px; margin-top:-5px;">
+                                <img src="~/Content/Images/star_full.png" style="width:20px; margin-top:-5px;">
                                 (@item.numberOfReviews)
                             </td>
                             <td class="visible-md-block visible-lg-block">
@@ -109,11 +94,7 @@ search po lokacija vodi kon /SearchParkings/ByLocation
         </div>
     </div>
 </div>
-
-
-
 <style>
-
     .scroll option {
         min-height: 190px;
         overflow-y: auto;
@@ -123,25 +104,7 @@ search po lokacija vodi kon /SearchParkings/ByLocation
     }
 </style>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $(".parkingInfo").on("click", function (event) {
-            var parId = $(this).atr("parkingId");
-        });
-    });
-</script>
-<script>
-    $("#nameButton").on("click", function () {
-        var text = $("#name").val();
-        console.log(text);
-        if (text == "") {
-            bootbox.alert("Please fill in the search box with some text!");
-        }
-        else {
-            window.location.href = "/SearchParkings/ByName?name=" + text;
-        }
-    });
-</script>
+<script src="~/Scripts/App/searchByName.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 

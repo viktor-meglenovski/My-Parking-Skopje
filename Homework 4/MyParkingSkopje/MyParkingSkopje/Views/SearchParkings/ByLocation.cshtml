@@ -1,12 +1,7 @@
 ﻿@model IEnumerable<MyParkingSkopje.ViewModels.ParkingDetailsWithReviews>
 @{
-    ViewBag.Title = "ByLocation";
+    ViewBag.Title = "Search Results";
 }
-
-
-
-<!--tuka vo modelot se site parkinzi sortirani spored rastojanieto do korisnikot, vo modelot ima lista
-    od ParkingDetails isto kako vo drugite Views.-->
 <div class="row">
     <div class="green-rounded-corners text-center col-xs-10 col-xs-offset-1" style="margin-top:2%;">
         <div class="row ">
@@ -48,7 +43,7 @@
                         </td>
                         <td>
                             @item.rating.ToString("0.00")
-                            <img src="~/Content/Images/star_full.png" / style="width:20px; margin-top:-5px;">
+                            <img src="~/Content/Images/star_full.png"  style="width:20px; margin-top:-5px;">
                             (@item.numberOfReviews)
                         </td>
                         <td class="visible-md-block visible-lg-block">
@@ -64,18 +59,7 @@
     </div>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#table").DataTable({
-            "ordering": false,
-            "bLengthChange": false,
-            "searching": false,
-            "pageLength": 9,
-            "bInfo": false,
-            "dom": 'lfBrtip'
-        });
-    });
-</script>
+<script src="~/Scripts/App/notSortableResultsDatatable.js"></script>
 <style>
     #table_paginate {
         float: none;

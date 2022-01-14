@@ -34,7 +34,15 @@ namespace MyParkingSkopje.Service
             //Се враќа објект со сите потребни податоци
             return new ReviewDetails(review, user.FirstName, user.LastName);
         }
-
+        //Метод кој одредува дали треба да се ажурира веќе постоечки Review или треба да се додади нов Review
+        public void addOrEditReview(string userId, int parkingId, int stars, string reviewText)
+        {
+            var review = _context.Reviews.Where(x => x.UserId == userId && x.ParkingId == parkingId).ToList();
+            if (review.Count() > 0)
+                editReview(userId, parkingId, stars, reviewText);
+            else
+                addReview(userId, parkingId, stars, reviewText);
+        }
         //Метод кој додава нов Review со соодветните параметри
         public void addReview(string userId, int parkingId, int stars, string reviewText)
         {
