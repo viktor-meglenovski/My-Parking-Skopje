@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "restored": true,
+      "restoreTime": "2022-01-21T23:03:57.5394057Z"
+    }
+  },
+  "parameters": {
+    "ReviewsMicroservice.resourceName": {
+      "Name": "ReviewsMicroservice.resourceName",
+      "Type": null,
+      "Value": "ReviewsMicroservice"
+    },
+    "ReviewsMicroservice.resourceGroupName": {
+      "Name": "ReviewsMicroservice.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "myparkingskopjeresourcegroup"
+    },
+    "ReviewsMicroservice.subscriptionId": {
+      "Name": "ReviewsMicroservice.subscriptionId",
+      "Type": "subscription",
+      "Value": "de32bc89-b072-405b-80c2-208c971826db"
+    },
+    "ReviewsMicroservice.resourceGroupLocation": {
+      "Name": "ReviewsMicroservice.resourceGroupLocation",
+      "Type": null,
+      "Value": "germanywestcentral"
+    },
+    "subscriptionId": {
+      "Name": "subscriptionId",
+      "Type": "subscription",
+      "Value": "de32bc89-b072-405b-80c2-208c971826db"
+    }
+  }
+}
