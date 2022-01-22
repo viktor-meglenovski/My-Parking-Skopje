@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace ReviewsMicroservice.Controllers
 {
+    //REST API контролер кој обработува барања поврзани со Reviews на паркинзи
     public class ReviewController : ApiController
     {
         private ReviewService reviewService { get; set; }
@@ -61,6 +62,7 @@ namespace ReviewsMicroservice.Controllers
             reviewService.deleteReview(userId, parkingId);
         }
 
+        //POST акција преку која се враќаат сите детали за сите Reviews пратени како листа
         [HttpPost]
         [Route("api/review/allDetails")]
         public List<ReviewDetails> GetAllReviewsDetails([FromBody] List<Review> reviews)

@@ -90,3 +90,4 @@ C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 4\Parkin
 C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 4\ParkingMicroservice\ParkingMicroservice\obj\Release\ParkingMicroservice.csproj.CopyComplete
 C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 4\ParkingMicroservice\ParkingMicroservice\obj\Release\ParkingMicroservice.dll
 C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 4\ParkingMicroservice\ParkingMicroservice\obj\Release\ParkingMicroservice.pdb
+C:\Users\Viktor Meglenovski\Documents\GitHub\My-Parking-Skopje\Homework 4\ParkingMicroservice\ParkingMicroservice\obj\Release\ParkingMicroservice.csprojAssemblyReference.cache

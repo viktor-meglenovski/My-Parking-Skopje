@@ -7,10 +7,10 @@ using System.Net.Http;
 using System.Web;
 
 namespace ParkingMicroservice.Service
-{
+{        
+    //Класа во која се наоѓа бизнис логиката за ParkingController - имплементира Singleton Design Pattern
     public class ParkingService
     {
-        //Класа во која се наоѓа бизнис логиката за ParkingController - имплементира Singleton Design Pattern
         private static ParkingService parkingService { get; set; }
 
         //HTTPClient објект преку кој испраќаме барања со Review микросервисот

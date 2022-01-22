@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace ParkingMicroservice.Controllers
 {
+    //REST API контролер кој обработува барања поврзани со добивање информации за паркинзи, локација на корисници и bookmarking
     public class ParkingController : ApiController
     {
         private ParkingService parkingService { get; set; }
