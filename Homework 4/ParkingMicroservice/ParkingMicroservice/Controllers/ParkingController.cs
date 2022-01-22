@@ -41,5 +41,13 @@ namespace ParkingMicroservice.Controllers
             //Ја враќаме новата состојба - дали паркингот после оваа акција е зачуван или не во листата на bookmarks за соодветниот корисник
             return parkingService.bookmarkParking(userId,id);
         }
+
+        //GET акција која ги враќа деталите за сите паркинзи во однос на даден корисник
+        [HttpGet]
+        [Route("api/parking/all")]
+        public List<ParkingDetailsWithReviews> getAllDetails(string userId)
+        {
+            return parkingService.GetAllParkingDetails(userId);
+        }
     }
 }

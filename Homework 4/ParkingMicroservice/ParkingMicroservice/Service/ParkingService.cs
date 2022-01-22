@@ -85,6 +85,13 @@ namespace ParkingMicroservice.Service
             return new ParkingDetailsWithReviews(p, rating, numberOfReviews, distance, reviewsDetails, bookmarked, existingReview);
         }
 
+        //Метод кој ги враќа деталите за сите паркинзи во однос на даден корисник
+        public List<ParkingDetailsWithReviews> GetAllParkingDetails(string userId)
+        {
+            var allParkings = _context.Parkings.ToList();
+            return GetParkingsDetails(allParkings, userId);
+        }
+
         //Метод кој ги враќа деталите за листа од паркинзи
         public List<ParkingDetailsWithReviews> GetParkingsDetails(List<Parking> parkings, string userId)
         {
