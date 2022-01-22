@@ -8,6 +8,7 @@ using System.Web;
 namespace MyParkingSkopje.Service
 {
     //Класа во која се наоѓа бизнис логиката за SearchParkingsController - имплементира Singleton Design Pattern
+    //Не се користи во финалната верзија на апликацијата - овој дел е заменет со REST API микросервис
     public class SearchParkingsService
     {
         private static SearchParkingsService searchParkingsService { get; set; }

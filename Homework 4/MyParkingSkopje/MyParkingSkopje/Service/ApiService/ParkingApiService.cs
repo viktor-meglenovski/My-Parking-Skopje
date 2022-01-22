@@ -19,7 +19,7 @@ namespace MyParkingSkopje.Service
         private ParkingApiService()
         {
             this.parkingServiceClient = new HttpClient();
-            this.parkingServiceClient.BaseAddress = new Uri("https://parkingmicroservice.azurewebsites.net/api");
+            this.parkingServiceClient.BaseAddress = new Uri("https://parkingmicroservice.azurewebsites.net/api/");
         }
         public static ParkingApiService ParkingApiServiceInstance()
         {

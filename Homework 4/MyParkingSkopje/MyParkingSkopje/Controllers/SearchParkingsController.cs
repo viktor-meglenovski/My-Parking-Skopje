@@ -14,10 +14,12 @@ namespace MyParkingSkopje.Controllers
     [Authorize]
     public class SearchParkingsController : Controller
     {
-        private SearchParkingsService searchParkingsService { get; set; }
+        //private SearchParkingsService searchParkingsService { get; set; }
+        public SearchParkingsApiService searchParkingsService { get; set; }
         public SearchParkingsController()
         {
-            this.searchParkingsService = SearchParkingsService.SearchParkingsServiceInstance();
+            //this.searchParkingsService = SearchParkingsService.SearchParkingsServiceInstance();
+            this.searchParkingsService = SearchParkingsApiService.SearchParkingsApiServiceInstance();
         }
         //GET акција која ја враќа главната страна за пребарување со сите потребни детали опишани во самата акција
         public ActionResult Index()

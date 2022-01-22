@@ -18,7 +18,7 @@ namespace MyParkingSkopje.Service
         private ReviewApiService()
         {
             this.reviewServiceClient = new HttpClient();
-            this.reviewServiceClient.BaseAddress = new Uri("https://reviewsmicroservice.azurewebsites.net/api");
+            this.reviewServiceClient.BaseAddress = new Uri("https://reviewsmicroservice.azurewebsites.net/api/");
         }
         public static ReviewApiService ReviewApiServiceInstance()
         {
@@ -42,7 +42,8 @@ namespace MyParkingSkopje.Service
         {
             AddOrEditReviewViewModel model = new AddOrEditReviewViewModel(userId, parkingId, stars, reviewText);
             var content = new StringContent(JsonConvert.SerializeObject(model), System.Text.Encoding.UTF8, "application/json");
-            var responseTask = reviewServiceClient.PostAsync("/review",content);
+            var responseTask = reviewServiceClient.PostAsync("review",content);
+            responseTask.Wait();
         }
         //Метод кој прави АПИ повик за бришење Review за дадениот паркинг од дадениот корисник
         public void deleteReview(string userId, int parkingId)
