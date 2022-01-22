@@ -1,7 +1,9 @@
-﻿using ParkingMicroservice.Models;
+﻿using Newtonsoft.Json;
+using ParkingMicroservice.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 
 namespace ParkingMicroservice.Service
@@ -9,12 +11,13 @@ namespace ParkingMicroservice.Service
     public class ParkingService
     {
         private static ParkingService parkingService { get; set; }
-        private ReviewService reviewService { get; set; }
+        private HttpClient reviewServiceClient { get; set; }
         private AppDbContext _context { get; set; }
         private ParkingService()
         {
             this._context = new AppDbContext();
-            this.reviewService = ReviewService.ReviewServiceInstance();
+            this.reviewServiceClient = new HttpClient();
+            this.reviewServiceClient.BaseAddress = new Uri("https://reviewsmicroservice.azurewebsites.net/api/");
         }
         public static ParkingService ParkingServiceInstance()
         {
@@ -32,11 +35,25 @@ namespace ParkingMicroservice.Service
         public ParkingDetailsWithReviews GetParkingDetails(int parkingId, string userId)
         {
             Parking p = _context.Parkings.Find(parkingId);
-            //Ги земаме сите Reviews за дадениот паркинг
-            var reviews = reviewService.getAllReviewsForParking(parkingId);
 
-            //Ги добиваме деталите за сите Reviews за тој паркинг.
-            var reviewsDetails = reviewService.getReviewsDetails(reviews);
+            //Правиме АПИ повик до микросервисот за Reviews и ги земаме сите Reviews за дадениот паркинг
+            var responseTask = reviewServiceClient.GetAsync("review?id=" + parkingId);
+            responseTask.Wait();
+            var result = responseTask.Result;
+            var readTaskReview = result.Content.ReadAsAsync<List<Review>>();
+            readTaskReview.Wait();
+            var reviews = readTaskReview.Result;
+
+            //Ги серијализираме податоците во JSON формат со цел да ги испратиме до АПИто повторно
+            //var content = new StringContent(JsonConvert.SerializeObject(reviews), System.Text.Encoding.UTF8, "application/json");
+
+            //Правиме АПИ повик до микросервисот за Review и ги добиваме деталите за сите Reviews за тој паркинг.
+            responseTask = reviewServiceClient.PostAsync("review/allDetails", reviews);
+            responseTask.Wait();
+            result = responseTask.Result;
+            var readTaskReviewDetails = result.Content.ReadAsAsync<List<ReviewDetails>>();
+            readTaskReviewDetails.Wait();
+            var reviewsDetails = readTaskReviewDetails.Result;
 
             //Вкупен број на Reviews за тој паркинг
             int numberOfReviews = reviews.Count();
@@ -53,7 +70,13 @@ namespace ParkingMicroservice.Service
 
             //Добивање на веќе постоечко Review за дадениот паркинг од тековно најавениот корисник
             //Податоците од веќе постоечкото Review се прикажуваат кога корисник ќе отвори страна на паркинг за која веќе има внесено Review
-            var existingReview = reviewService.getExistingReview(userId, parkingId);
+            //Правиме АПИ повик до микросервисот за Reviews и ги праќаме соодветните атрибути
+            responseTask = reviewServiceClient.GetAsync("review/existing?id="+parkingId+"&userId="+userId);
+            responseTask.Wait();
+            result = responseTask.Result;
+            var readTaskExistingReview= result.Content.ReadAsAsync<Review>();
+            readTaskReviewDetails.Wait();
+            var existingReview = readTaskExistingReview.Result;
 
             //Враќање на сите детали за паркингот
             return new ParkingDetailsWithReviews(p, rating, numberOfReviews, distance, reviewsDetails, bookmarked, existingReview);

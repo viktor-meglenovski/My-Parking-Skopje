@@ -19,9 +19,17 @@ namespace ReviewsMicroservice.Controllers
             this.reviewService = ReviewService.ReviewServiceInstance();
         }
 
+        //GET акција која ги враќа основните податоци за Review со ID зададено како параметар за корисник со ID зададено како параметар
+        [HttpGet]
+        [Route("api/review/existing")]
+        public Review GetReview(int id, string userId)
+        {
+            return reviewService.getExistingReview(userId,id);
+        }
+
         //GET акција која ги враќа сите детали за Review со ID зададено како параметар
         [HttpGet]
-        [Route("api/review")]
+        [Route("api/review/details")]
         public ReviewDetails GetReviewDetails(int id)
         {
             return reviewService.getReviewDetails(id);
@@ -43,6 +51,13 @@ namespace ReviewsMicroservice.Controllers
         {
             //Се повикува соодветниот метод од сервисот
             reviewService.deleteReview(userId, parkingId);
+        }
+
+        [HttpPost]
+        [Route("api/review/allDetails")]
+        public List<ReviewDetails> GetAllReviewsDetails([FromBody] List<Review> reviews)
+        {
+            return reviewService.getReviewsDetails(reviews);
         }
     }
 }

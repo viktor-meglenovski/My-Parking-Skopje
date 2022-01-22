@@ -150,6 +150,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AppDbContext.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Bookmark.cs" />
     <Compile Include="Models\Parking.cs" />
     <Compile Include="Models\ParkingDetailsWithReviews.cs" />
