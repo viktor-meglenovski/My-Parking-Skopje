@@ -47,10 +47,10 @@ namespace ReviewsMicroservice.Controllers
         //POST акција за додавање на нов Review или ажурирање на постоечки Review за соодветниот паркинг со соодветните атрибути од тековно најавениот корисник
         [HttpPost]
         [Route("api/review")]
-        public void AddOrEditReview(string userId, int parkingId, int stars, string reviewText)
+        public void AddOrEditReview([FromBody] AddOrEditReviewViewModel model)
         {
             //Се повикува соодветниот метод од сервисот
-            reviewService.addOrEditReview(userId, parkingId, stars, reviewText);
+            reviewService.addOrEditReview(model.userId, model.parkingId, model.stars, model.reviewText);
         }
 
         //GET акција за бришење на веќе постоечко Review за паркинг со ID дадено како аргумент, напишано од тековно најавениот корисник

@@ -14,10 +14,12 @@ namespace MyParkingSkopje.Controllers
     [Authorize]
     public class ReviewController : Controller
     {
-        private ReviewService reviewService { get; set; }
+        //private ReviewService reviewService { get; set; }
+        private ReviewApiService reviewService { get; set; }
         public ReviewController()
         {
-            this.reviewService = ReviewService.ReviewServiceInstance();
+            //this.reviewService = ReviewService.ReviewServiceInstance();
+            this.reviewService = ReviewApiService.ReviewApiServiceInstance();
         }
         //GET акција која ги враќа сите детали за Review со ID зададено како параметар
         public ActionResult GetReviewDetails(int id)
