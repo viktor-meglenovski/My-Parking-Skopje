@@ -260,12 +260,12 @@
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\UserLocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\ParkingApiService.cs" />
+    <Compile Include="Service\ApiService\ParkingApiService.cs" />
     <Compile Include="Service\ParkingService.cs" />
     <Compile Include="Service\ProfileService.cs" />
-    <Compile Include="Service\ReviewApiService.cs" />
+    <Compile Include="Service\ApiService\ReviewApiService.cs" />
     <Compile Include="Service\ReviewService.cs" />
-    <Compile Include="Service\SearchParkingsApiService.cs" />
+    <Compile Include="Service\ApiService\SearchParkingsApiService.cs" />
     <Compile Include="Service\SearchParkingsService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AddOrEditReviewViewModel.cs" />

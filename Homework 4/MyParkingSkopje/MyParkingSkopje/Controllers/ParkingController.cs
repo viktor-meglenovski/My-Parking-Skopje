@@ -15,10 +15,12 @@ namespace MyParkingSkopje.Controllers
     public class ParkingController : Controller
     {
         //Класа во која се наоѓа бизнис логиката за овој контролер
-        private ParkingService parkingService { get; set; }
+        //private ParkingService parkingService { get; set; }
+        private ParkingApiService parkingService { get; set; }
         public ParkingController()
         {
-            this.parkingService = ParkingService.ParkingServiceInstance();
+            //this.parkingService = ParkingService.ParkingServiceInstance();
+            this.parkingService = ParkingApiService.ParkingApiServiceInstance();
         }
         //GET акција која ги враќа сите информации и детали за паркингот со ID пратено како параметар
         public ActionResult Details(int id)

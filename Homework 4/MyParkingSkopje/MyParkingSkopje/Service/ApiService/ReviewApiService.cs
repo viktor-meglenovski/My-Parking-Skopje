@@ -12,6 +12,7 @@ namespace MyParkingSkopje.Service
     public class ReviewApiService
     {
         private static ReviewApiService reviewApiService { get; set; }
+        //Http клиент преку кој се испраќаат барања до Review микросервисот
         private HttpClient reviewServiceClient { get; set; }
 
         private ReviewApiService()
@@ -26,6 +27,7 @@ namespace MyParkingSkopje.Service
             return reviewApiService;
         }
 
+        //Метод кој прави АПИ повик кој ги враќа деталите за Review со даденото ID
         public ReviewDetails getReviewDetails(int id)
         {
             var responseTask = reviewServiceClient.GetAsync("review/details?id=" + id);
@@ -35,14 +37,14 @@ namespace MyParkingSkopje.Service
             readTaskReview.Wait();
             return JsonConvert.DeserializeObject<ReviewDetails>(readTaskReview.Result);
         }
-
+        //Метод кој прави АПИ повик за додавање/ажурирање на Review врз основа на тоа дали постои Review за дадениот паркинг од дадениот корисник
         public void addOrEditReview(string userId, int parkingId, int stars, string reviewText)
         {
             AddOrEditReviewViewModel model = new AddOrEditReviewViewModel(userId, parkingId, stars, reviewText);
             var content = new StringContent(JsonConvert.SerializeObject(model), System.Text.Encoding.UTF8, "application/json");
             var responseTask = reviewServiceClient.PostAsync("/review",content);
         }
-
+        //Метод кој прави АПИ повик за бришење Review за дадениот паркинг од дадениот корисник
         public void deleteReview(string userId, int parkingId)
         {
             var responseTask = reviewServiceClient.GetAsync("review/delete?userId=" + userId+"&parkingId="+parkingId);
