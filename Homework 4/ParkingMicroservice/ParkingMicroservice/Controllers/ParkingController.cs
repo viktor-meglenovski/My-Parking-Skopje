@@ -17,6 +17,7 @@ namespace ParkingMicroservice.Controllers
             this.parkingService = ParkingService.ParkingServiceInstance();
         }
 
+        //GET акција која ги враќа деталите за паркингот со соодвентото ID за корисникот со соодветното ID
         [HttpGet]
         [Route("api/parking")]
         public ParkingDetailsWithReviews getDetails(int id,string userId)
@@ -24,6 +25,7 @@ namespace ParkingMicroservice.Controllers
             return parkingService.GetParkingDetails(id, userId);
         }
 
+        //GET акција која ја враќа тековно зачуваната локација на корисникот со ID испратено како параметар
         [HttpGet]
         [Route("api/parking/userlocation")]
         public UserLocation getUserLocation(string userId)
@@ -31,7 +33,8 @@ namespace ParkingMicroservice.Controllers
             return parkingService.getUserLocation(userId);
         }
 
-        [HttpPost]
+        //GET акција која се справува со зачувување и бришење на паркинзи од листата на зачувани паркинзи за секој корисник
+        [HttpGet]
         [Route("api/parking/bookmark")]
         public Boolean bookmarkParking(string userId,int id)
         {

@@ -10,7 +10,10 @@ namespace ParkingMicroservice.Service
 {
     public class ParkingService
     {
+        //Класа во која се наоѓа бизнис логиката за ParkingController - имплементира Singleton Design Pattern
         private static ParkingService parkingService { get; set; }
+
+        //HTTPClient објект преку кој испраќаме барања со Review микросервисот
         private HttpClient reviewServiceClient { get; set; }
         private AppDbContext _context { get; set; }
         private ParkingService()
@@ -45,10 +48,10 @@ namespace ParkingMicroservice.Service
             var reviews = readTaskReview.Result;
 
             //Ги серијализираме податоците во JSON формат со цел да ги испратиме до АПИто повторно
-            //var content = new StringContent(JsonConvert.SerializeObject(reviews), System.Text.Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonConvert.SerializeObject(reviews), System.Text.Encoding.UTF8, "application/json");
 
             //Правиме АПИ повик до микросервисот за Review и ги добиваме деталите за сите Reviews за тој паркинг.
-            responseTask = reviewServiceClient.PostAsync("review/allDetails", reviews);
+            responseTask = reviewServiceClient.PostAsync("review/allDetails", content);
             responseTask.Wait();
             result = responseTask.Result;
             var readTaskReviewDetails = result.Content.ReadAsAsync<List<ReviewDetails>>();

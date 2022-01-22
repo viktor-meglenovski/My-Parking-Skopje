@@ -19,6 +19,14 @@ namespace ReviewsMicroservice.Controllers
             this.reviewService = ReviewService.ReviewServiceInstance();
         }
 
+        //GET акција која ги враќа основните податоци за Review за паркинг со зададеното ID
+        [HttpGet]
+        [Route("api/review/")]
+        public List<Review> GetReview(int id)
+        {
+            return reviewService.getAllReviewsForParking(id);
+        }
+
         //GET акција која ги враќа основните податоци за Review со ID зададено како параметар за корисник со ID зададено како параметар
         [HttpGet]
         [Route("api/review/existing")]
